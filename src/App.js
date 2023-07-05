@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import './App.css';
+import React, { useState } from "react";
 
 function App() {
   const [newTask, setNewTask] = useState("");
@@ -26,17 +25,16 @@ function App() {
   }
 
   /* editing existing tasks */
-  function editTask() {
-    
-  }
+  function editTask() {}
 
-   /* to complete a task */
-   function completedTasks(id) {
-    const newList = tasks.map((task => task.id === id ? 
-      {...task, completed: !task.completed}: task))
+  /* to complete a task */
+  function completedTasks(id) {
+    const newList = tasks.map((task) =>
+      task.id === id ? { ...task, completed: !task.completed } : task
+    );
     setTasks(newList);
   }
-  
+
   return (
     <div className="app">
       {/* Title */}
@@ -44,33 +42,28 @@ function App() {
 
       {/* Entering new tasks */}
       <input
-        type = "text"
-        placeholder = "Enter a new task!"
-        value = {newTask}
-        onChange = {(e) => setNewTask(e.target.value)}
+        type="text"
+        placeholder="Enter a new task!"
+        value={newTask}
+        onChange={(e) => setNewTask(e.target.value)}
+        className="border-2 border-black"
       />
 
       {/* button for adding tasks */}
       <button onClick={() => addTask()}>Add</button>
 
       {/* lists of the entered tasks */}
-      <ul> 
-        {tasks.map(task => {
+      <ul>
+        {tasks.map((task) => {
           return (
-            <li key={task.id}> 
-              {task.value}
-              <button onClick = {() => deleteTask(task.id)}>  
-                DELETE
-              </button>
-              <button onClick = {() => completedTasks(task.id)}>  
-                COMPLETED
-              </button>
+            <li key={task.id}>
+              <h2 className={task.completed ? "bg-black" : "bg-white"}>{task.value}</h2>
+              <button onClick={() => deleteTask(task.id)}>DELETE</button>
+              <button onClick={() => completedTasks(task.id)}>COMPLETED</button>
             </li>
-          )
-          
+          );
         })}
       </ul>
-      
     </div>
   );
 }
