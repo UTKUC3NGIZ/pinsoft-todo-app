@@ -32,7 +32,9 @@ function App() {
 
    /* to complete a task */
    function completedTasks(id) {
-  
+    const newList = tasks.map((task => task.id === id ? 
+      {...task, completed: !task.completed}: task))
+    setTasks(newList);
   }
   
   return (
