@@ -14,12 +14,11 @@ function App() {
   const [edit, setEdit] = useState([]);
   const [clickedTime, setClickedTime] = useState(null);
 
-
   const [isDarkMode, setDarkMode] = useState(false);
 
   // Date
   const today = new Date();
-  const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+  const dateOptions = { year: "numeric", month: "long", day: "numeric" };
   const formattedDate = today.toLocaleDateString(undefined, dateOptions);
 
   /* add task function*/
@@ -79,39 +78,21 @@ function App() {
   };
 
   return (
-    <div className="responsive flex justify-center items-center">
+    <div className="responsive flex justify-center items-center bg-cyan-100">
       <div
         className={`w-screen h-screen relative flex justify-center items-center ${
           modal ? "blur-sm" : ""
         }`}
       >
-        <div className="absolute">
-          <div className="flex items-center justify-between mb-10">
+        <div className="absolute min-w-[50%]">
+          <div className="bg-gradient-to-r from-cyan-300 to-blue-400/75 p-10 rounded-t-xl">
             {/* Title */}
-            <h1 className="text-4xl font-bold ">{formattedDate}</h1>
+            <h1 className="text-2xl text-white">{formattedDate}</h1>
             {/* <button onClick={toggleDarkMode} className=" text-xl">
               {
                 isDarkMode ?<BsSun /> :<BsFillMoonFill/>
               }
             </button> */}
-          </div>
-          {/* Entering new tasks */}
-          <div className="inline-flex relative items-center mb-8">
-            <input
-              type="text"
-              placeholder="Enter a new task!"
-              value={newTask}
-              onChange={(e) => setNewTask(e.target.value)}
-              className="border-2 rounded-2xl border-black py-2 px-4 text-xl font-bold"
-            />
-
-            {/* button for adding tasks */}
-            <button
-              onClick={() => addTask()}
-              className="absolute text-xl right-4 pl-2 border-l-2 border-black h-full rounded-2xl"
-            >
-              Add
-            </button>
           </div>
 
           {/* lists of the entered tasks */}
@@ -121,25 +102,29 @@ function App() {
               return (
                 <div
                   key={task.id}
-                  className="flex mb-5 items-center justify-between border-2 border-black py-2 px-4 rounded-2xl "
+                  className="flex last:rounded-b-xl pl-10 hover:scale-110  shadow-xl shadow-cyan-200 items-center mb-1 justify-between border-2 border-transparent bg-white py-7 "
                 >
                   <div className="flex">
-                    <button
+                    {/* <button
                       onClick={() => modalBtn(task)}
                       className="hover:scale-150 text-xl delay-100 mr-2"
                     >
                       <AiOutlineEdit />
-                    </button>
-                    <h2
-                      className={`${
-                        task.completed ? "line-through" : ""
-                      }  font-bold text-xl`}
-                    >
-                      {task.value}{clickedTime}
-                    </h2>
+                    </button> */}
+                    <div className="flex flex-col ">
+                    <span className="text-gray-400 text-xl">{clickedTime}</span>
+                      <h2
+                        className={`${
+                          task.completed ? "line-through" : ""
+                        }   text-xl text-gray-600`}
+                      >
+                        {task.value}
+                      </h2>
+                     
+                    </div>
                   </div>
 
-                  <div className="flex ">
+                  {/* <div className="flex ">
                     <button
                       onClick={() => deleteTask(task.id)}
                       className="hover:scale-150 text-xl mr-5 delay-100"
@@ -152,16 +137,10 @@ function App() {
                     >
                       <AiOutlineCheck />
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               );
             })}
-            <button
-              onClick={deleteTodos}
-              className=" text-xl right-4 pl-2 border-2 border-black h-full rounded-2xl"
-            >
-              delete completed
-            </button>
           </div>
         </div>
       </div>
@@ -200,3 +179,29 @@ function App() {
 }
 
 export default App;
+
+// {/* Entering new tasks */}
+// <div className="inline-flex relative items-center mb-8">
+//   <input
+//     type="text"
+//     placeholder="Enter a new task!"
+//     value={newTask}
+//     onChange={(e) => setNewTask(e.target.value)}
+//     className="border-2 rounded-2xl border-black py-2 px-4 text-xl font-bold"
+//   />
+
+//   {/* button for adding tasks */}
+//   <button
+//     onClick={() => addTask()}
+//     className="absolute text-xl right-4 pl-2 border-l-2 border-black h-full rounded-2xl"
+//   >
+//     Add
+//   </button>
+// </div>
+
+//   <button
+//   onClick={deleteTodos}
+//   className=" text-xl right-4 pl-2 border-2 border-black h-full rounded-2xl"
+// >
+//   delete completed
+// </button>
