@@ -12,6 +12,23 @@ function App() {
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState([]);
 
+
+    const [isDarkMode, setDarkMode] = useState(false);
+
+    const toggleDarkMode = () => {
+      setDarkMode(!isDarkMode);
+
+      return (
+        <div className={isDarkMode ? 'dark-mode' : ''}>
+          <h1>Uygulama Başlığı</h1>
+          <button onClick={toggleDarkMode}>Karanlık Modu Aç/Kapat</button>
+          {/* Diğer bileşenler ve içerikler */}
+        </div>
+      );
+    }
+
+
+
   /* add task function*/
   function addTask() {
     const taskAdded = {
@@ -57,6 +74,11 @@ function App() {
     setTasks(changeTodo);
     setModal(false)
   }
+  function deleteTodos () {
+    setTasks(tasks.filter((todo) => !todo.completed));
+
+  }
+
 
   return (
     <div className="responsive flex justify-center items-center">
@@ -86,6 +108,19 @@ function App() {
             >
               Add
             </button>
+              
+            <button 
+            onClick={deleteTodos}
+            className=" text-xl right-4 pl-2 border-l-2 border-black h-full rounded-2xl">
+            delete completed
+            </button>
+
+            <button
+            onClick={() => addTask()}
+            className=" text-xl right-4 pl-2 border-l-2 border-black h-full rounded-2xl">
+            darkmode
+            </button>
+
           </div>
 
           {/* lists of the entered tasks */}
