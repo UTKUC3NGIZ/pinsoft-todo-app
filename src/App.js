@@ -12,8 +12,15 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState([]);
+  const [clickedTime, setClickedTime] = useState(null);
+
 
   const [isDarkMode, setDarkMode] = useState(false);
+
+  // Date
+  const today = new Date();
+  const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+  const formattedDate = today.toLocaleDateString(undefined, dateOptions);
 
   /* add task function*/
   function addTask() {
@@ -22,6 +29,7 @@ function App() {
       value: newTask,
       completed: false,
     };
+    setClickedTime(today.toLocaleTimeString());
 
     setTasks((previousTasks) => [...previousTasks, taskAdded]);
 
@@ -80,10 +88,12 @@ function App() {
         <div className="absolute">
           <div className="flex items-center justify-between mb-10">
             {/* Title */}
-            <h1 className="text-4xl font-bold ">Todo List</h1>
-            <button onClick={toggleDarkMode} className=" text-xl">
-              <BsSun />
-            </button>
+            <h1 className="text-4xl font-bold ">{formattedDate}</h1>
+            {/* <button onClick={toggleDarkMode} className=" text-xl">
+              {
+                isDarkMode ?<BsSun /> :<BsFillMoonFill/>
+              }
+            </button> */}
           </div>
           {/* Entering new tasks */}
           <div className="inline-flex relative items-center mb-8">
@@ -125,7 +135,7 @@ function App() {
                         task.completed ? "line-through" : ""
                       }  font-bold text-xl`}
                     >
-                      {task.value}
+                      {task.value}{clickedTime}
                     </h2>
                   </div>
 
