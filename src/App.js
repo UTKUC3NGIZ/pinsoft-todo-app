@@ -5,6 +5,7 @@ import {
   AiOutlineEdit,
   AiOutlineClose,
 } from "react-icons/ai";
+import { BsFillMoonFill, BsSun } from "react-icons/bs";
 
 function App() {
   const [newTask, setNewTask] = useState("");
@@ -12,22 +13,7 @@ function App() {
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState([]);
 
-
-    const [isDarkMode, setDarkMode] = useState(false);
-
-    const toggleDarkMode = () => {
-      setDarkMode(!isDarkMode);
-
-      return (
-        <div className={isDarkMode ? 'dark-mode' : ''}>
-          <h1>Uygulama Başlığı</h1>
-          <button onClick={toggleDarkMode}>Karanlık Modu Aç/Kapat</button>
-          {/* Diğer bileşenler ve içerikler */}
-        </div>
-      );
-    }
-
-
+  const [isDarkMode, setDarkMode] = useState(false);
 
   /* add task function*/
   function addTask() {
@@ -72,13 +58,17 @@ function App() {
       task.id === edit.id ? { ...task, value: edit.value } : task
     );
     setTasks(changeTodo);
-    setModal(false)
+    setModal(false);
   }
-  function deleteTodos () {
+  function deleteTodos() {
     setTasks(tasks.filter((todo) => !todo.completed));
-
   }
 
+  // dark mode
+
+  const toggleDarkMode = () => {
+    setDarkMode(!isDarkMode);
+  };
 
   return (
     <div className="responsive flex justify-center items-center">
@@ -88,9 +78,13 @@ function App() {
         }`}
       >
         <div className="absolute">
-          {/* Title */}
-          <h1 className="text-4xl font-bold mb-10">Todo List</h1>
-
+          <div className="flex items-center justify-between mb-10">
+            {/* Title */}
+            <h1 className="text-4xl font-bold ">Todo List</h1>
+            <button onClick={toggleDarkMode} className=" text-xl">
+              <BsSun />
+            </button>
+          </div>
           {/* Entering new tasks */}
           <div className="inline-flex relative items-center mb-8">
             <input
@@ -108,19 +102,6 @@ function App() {
             >
               Add
             </button>
-              
-            <button 
-            onClick={deleteTodos}
-            className=" text-xl right-4 pl-2 border-l-2 border-black h-full rounded-2xl">
-            delete completed
-            </button>
-
-            <button
-            onClick={() => addTask()}
-            className=" text-xl right-4 pl-2 border-l-2 border-black h-full rounded-2xl">
-            darkmode
-            </button>
-
           </div>
 
           {/* lists of the entered tasks */}
@@ -165,12 +146,21 @@ function App() {
                 </div>
               );
             })}
+            <button
+              onClick={deleteTodos}
+              className=" text-xl right-4 pl-2 border-2 border-black h-full rounded-2xl"
+            >
+              delete completed
+            </button>
           </div>
         </div>
       </div>
       <div className={`absolute ${modal ? "block" : "hidden"} `}>
         <div className="border-2 border-black px-20 py-10 bg-white relative rounded-2xl">
-          <AiOutlineClose className="absolute top-2 right-2 text-2xl cursor-pointer" onClick={() => setModal(false)} />
+          <AiOutlineClose
+            className="absolute top-2 right-2 text-2xl cursor-pointer"
+            onClick={() => setModal(false)}
+          />
           <h2 className="absolute top-2 left-2 text-xl font-bold">Edit Todo</h2>
           <div className="flex items-center justify-between">
             <span className="text-xl font-bold mr-2 line-through">
