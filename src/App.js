@@ -4,6 +4,8 @@ import {
   AiOutlineCheck,
   AiOutlineEdit,
   AiOutlineClose,
+  AiOutlineFileAdd,
+  AiOutlineProfile,
 } from "react-icons/ai";
 import { BsFillMoonFill, BsSun } from "react-icons/bs";
 
@@ -17,6 +19,15 @@ function App() {
   const [clickedTime, setClickedTime] = useState(null);
 
   const [isDarkMode, setDarkMode] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  
+  //..
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
 
   // Date
   const today = new Date();
@@ -120,14 +131,26 @@ function App() {
                       </h2>
                     </div>
                   </div>
-                  <div className="flex">
-                    <button onClick={() => deleteTask(task.id)}>
-                      <AiOutlineDelete />
-                    </button>
-                    <button onClick={() => addTask()}>Add</button>
-                    <button onClick={() => modalBtn(task)}>
+                  <div className="group hover:scale-110 flex">
+                    <img
+                    src="foto.png"
+                    alt="Profil Resmi"
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                    />
+                  {isHovered && (
+                   <div>
+                   <li className="group hover:scale-110 flex"> <button onClick={() => addTask()}>
+                    <AiOutlineFileAdd />
+                    </button></li>
+                    <li className="group hover:scale-110 flex"><button onClick={() => modalBtn(task)}>
                       <AiOutlineEdit />
-                    </button>
+                    </button></li>
+                    <li className="group hover:scale-110 flex"><button onClick={() => deleteTask(task.id)}>
+                      <AiOutlineDelete />
+                    </button></li>
+                    </div>
+                  )}
                   </div>
 
                   <div className="flex "></div>
