@@ -1,9 +1,16 @@
 import React, { useState } from "react";
-import { AiOutlineDelete, AiOutlineCheck } from "react-icons/ai";
+import {
+  AiOutlineDelete,
+  AiOutlineCheck,
+  AiOutlineEdit,
+  AiOutlineClose,
+} from "react-icons/ai";
 
 function App() {
   const [newTask, setNewTask] = useState("");
   const [tasks, setTasks] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [edit, setEdit] = useState([]);
 
   /* add task function*/
   function addTask() {
@@ -25,9 +32,6 @@ function App() {
     setTasks(newList);
   }
 
-  /* editing existing tasks */
-  function editTask() {}
-
   /* to complete a task */
   function completedTasks(id) {
     const newList = tasks.map((task) =>
@@ -36,64 +40,124 @@ function App() {
     setTasks(newList);
   }
 
+  /* Modal */
+  function modalBtn(task) {
+    setModal(!modal);
+    setEdit(task);
+  }
+  /* editing existing tasks */
+  function editTask(e) {
+    setEdit({ ...edit, value: e });
+  }
+  // change Todo
+  function change() {
+    const changeTodo = tasks.map((task) =>
+      task.id === edit.id ? { ...task, value: edit.value } : task
+    );
+    setTasks(changeTodo);
+    setModal(false)
+  }
+
   return (
-    <div className="w-screen h-screen relative flex justify-center items-center">
-      <div className="absolute">
-        {/* Title */}
-        <h1 className="text-4xl font-bold mb-10">Todo List</h1>
+    <div className="responsive flex justify-center items-center">
+      <div
+        className={`w-screen h-screen relative flex justify-center items-center ${
+          modal ? "blur-sm" : ""
+        }`}
+      >
+        <div className="absolute">
+          {/* Title */}
+          <h1 className="text-4xl font-bold mb-10">Todo List</h1>
 
-        {/* Entering new tasks */}
-        <div className="inline-flex relative items-center mb-8">
-          <input
-            type="text"
-            placeholder="Enter a new task!"
-            value={newTask}
-            onChange={(e) => setNewTask(e.target.value)}
-            className="border-2 rounded-2xl border-black py-2 px-4 text-xl font-bold"
-          />
+          {/* Entering new tasks */}
+          <div className="inline-flex relative items-center mb-8">
+            <input
+              type="text"
+              placeholder="Enter a new task!"
+              value={newTask}
+              onChange={(e) => setNewTask(e.target.value)}
+              className="border-2 rounded-2xl border-black py-2 px-4 text-xl font-bold"
+            />
 
-          {/* button for adding tasks */}
-          <button
-            onClick={() => addTask()}
-            className="absolute text-xl right-4 pl-2 border-l-2 border-black h-full rounded-2xl"
-          >
-            Add
-          </button>
-        </div>
+            {/* button for adding tasks */}
+            <button
+              onClick={() => addTask()}
+              className="absolute text-xl right-4 pl-2 border-l-2 border-black h-full rounded-2xl"
+            >
+              Add
+            </button>
+          </div>
 
-        {/* lists of the entered tasks */}
+          {/* lists of the entered tasks */}
 
-        <div className="flex flex-col">
-          {tasks.map((task) => {
-            return (
-              <div
-                key={task.id}
-                className="flex mb-5 items-center justify-between border-2 border-black py-2 px-4 rounded-2xl "
-              >
-                <h2
-                  className={`${
-                    task.completed ? "line-through" : ""
-                  }  font-bold text-xl`}
+          <div className="flex flex-col">
+            {tasks.map((task) => {
+              return (
+                <div
+                  key={task.id}
+                  className="flex mb-5 items-center justify-between border-2 border-black py-2 px-4 rounded-2xl "
                 >
-                  {task.value}
-                </h2>
-                <div className="flex ">
-                  <button
-                    onClick={() => deleteTask(task.id)}
-                    className="hover:scale-150 text-xl mr-5 delay-100"
-                  >
-                    <AiOutlineDelete />
-                  </button>
-                  <button
-                    onClick={() => completedTasks(task.id)}
-                    className="hover:scale-150 text-xl delay-100"
-                  >
-                    <AiOutlineCheck />
-                  </button>
+                  <div className="flex">
+                    <button
+                      onClick={() => modalBtn(task)}
+                      className="hover:scale-150 text-xl delay-100 mr-2"
+                    >
+                      <AiOutlineEdit />
+                    </button>
+                    <h2
+                      className={`${
+                        task.completed ? "line-through" : ""
+                      }  font-bold text-xl`}
+                    >
+                      {task.value}
+                    </h2>
+                  </div>
+
+                  <div className="flex ">
+                    <button
+                      onClick={() => deleteTask(task.id)}
+                      className="hover:scale-150 text-xl mr-5 delay-100"
+                    >
+                      <AiOutlineDelete />
+                    </button>
+                    <button
+                      onClick={() => completedTasks(task.id)}
+                      className="hover:scale-150 text-xl delay-100"
+                    >
+                      <AiOutlineCheck />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
+        </div>
+      </div>
+      <div className={`absolute ${modal ? "block" : "hidden"} `}>
+        <div className="border-2 border-black px-20 py-10 bg-white relative rounded-2xl">
+          <AiOutlineClose className="absolute top-2 right-2 text-2xl cursor-pointer" onClick={() => setModal(false)} />
+          <h2 className="absolute top-2 left-2 text-xl font-bold">Edit Todo</h2>
+          <div className="flex items-center justify-between">
+            <span className="text-xl font-bold mr-2 line-through">
+              {edit.value}
+            </span>
+            <span className="text-xl font-bold">=</span>
+            <div className="relative flex">
+              <input
+                type="text"
+                value={edit.value}
+                onChange={(e) => editTask(e.target.value)}
+                placeholder="Update the task!"
+                className="border-2 ml-2 rounded-2xl border-black py-2 px-4 text-xl font-bold"
+              />
+              <button
+                onClick={() => change()}
+                className="absolute text-xl right-4 pl-2 border-l-2 border-black h-full rounded-2xl"
+              >
+                Add
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
