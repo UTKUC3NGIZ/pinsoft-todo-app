@@ -8,6 +8,7 @@ import {
   AiOutlineProfile,
 } from "react-icons/ai";
 import { BsFillMoonFill, BsSun } from "react-icons/bs";
+// import Login from './components/Login';
 
 function App() {
   const [newTask, setNewTask] = useState("");
@@ -84,6 +85,9 @@ function App() {
     setTasks(tasks.filter((todo) => !todo.completed));
   }
 
+  
+    
+
   // dark mode
 
   const toggleDarkMode = () => {
@@ -92,6 +96,7 @@ function App() {
 
   return (
     <div className="responsive flex justify-center items-center bg-cyan-100">
+      {/* <Login /> */}
       <div
         className={`w-screen h-screen relative flex justify-center items-center ${
           modal ? "blur-sm" : ""
@@ -137,6 +142,8 @@ function App() {
                     alt="Profil Resmi"
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
+                    style={{ width: '50px', height: 'auto' }}
+
                     />
                   {isHovered && (
                    <div>
@@ -194,6 +201,7 @@ function App() {
   );
 }
 
+
 export default App;
 
 // <div >
@@ -211,11 +219,11 @@ export default App;
 
 // </div>
 
-{
-  /* <button onClick={() => completedTasks(task.id)}>
-                      <AiOutlineCheck />
-                    </button>
+// {
+//    <button onClick={() => completedTasks(task.id)}>
+//                       <AiOutlineCheck />
+//                     </button>
             
                  
-                    <button onClick={deleteTodos}>delete completed</button> */
-}
+//                     <button onClick={deleteTodos}>delete completed</button> 
+// }
