@@ -9,7 +9,7 @@ import { BsFillMoonFill, BsSun } from "react-icons/bs";
 
 function App() {
   const [newTask, setNewTask] = useState("");
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState([{id:1,value:"deneme",completed:false}]);
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState([]);
   const [clickedTime, setClickedTime] = useState(null);
@@ -102,15 +102,18 @@ function App() {
               return (
                 <div
                   key={task.id}
-                  className="flex last:rounded-b-xl pl-10 hover:scale-110  shadow-xl shadow-cyan-200 items-center mb-1 justify-between border-2 border-transparent bg-white py-7 "
+                  className="group flex last:rounded-b-xl pl-10 hover:scale-110  shadow-xl shadow-cyan-200 items-center mb-1 justify-between border-2 border-transparent bg-white py-7 "
                 >
                   <div className="flex">
-                    {/* <button
+                    <button
                       onClick={() => modalBtn(task)}
-                      className="hover:scale-150 text-xl delay-100 mr-2"
+                      className="group-hover:bg-black hover:scale-150 text-xl delay-100 mr-2"
                     >
                       <AiOutlineEdit />
-                    </button> */}
+                      
+
+
+                    </button>
                     <div className="flex flex-col ">
                     <span className="text-gray-400 text-xl">{clickedTime}</span>
                       <h2
@@ -176,32 +179,40 @@ function App() {
       </div>
     </div>
   );
+
+
+<div >
+{/* Entering new tasks */}
+<div className="inline-flex relative items-center mb-8">
+  <input
+    type="text"
+    placeholder="Enter a new task!"
+    value={newTask}
+    onChange={(e) => setNewTask(e.target.value)}
+    className="border-2 rounded-2xl border-black py-2 px-4 text-xl font-bold"
+  />
+
+  {/* button for adding tasks */}
+  <button
+    onClick={() => addTask()}
+    className="absolute text-xl right-4 pl-2 border-l-2 border-black h-full rounded-2xl"
+  >
+    Add
+  </button>
+</div>
+
+  <button
+  onClick={deleteTodos}
+  className=" text-xl right-4 pl-2 border-2 border-black h-full rounded-2xl"
+>
+  delete completed
+</button>
+</div>
+
 }
 
+
+
+
+
 export default App;
-
-// {/* Entering new tasks */}
-// <div className="inline-flex relative items-center mb-8">
-//   <input
-//     type="text"
-//     placeholder="Enter a new task!"
-//     value={newTask}
-//     onChange={(e) => setNewTask(e.target.value)}
-//     className="border-2 rounded-2xl border-black py-2 px-4 text-xl font-bold"
-//   />
-
-//   {/* button for adding tasks */}
-//   <button
-//     onClick={() => addTask()}
-//     className="absolute text-xl right-4 pl-2 border-l-2 border-black h-full rounded-2xl"
-//   >
-//     Add
-//   </button>
-// </div>
-
-//   <button
-//   onClick={deleteTodos}
-//   className=" text-xl right-4 pl-2 border-2 border-black h-full rounded-2xl"
-// >
-//   delete completed
-// </button>
