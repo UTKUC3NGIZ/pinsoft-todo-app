@@ -1,19 +1,40 @@
-// import React, { useState } from "react";
+import React, { useState } from "react";
 
 
-// //login
+//login
+function Login(){
+  return(
+    <div className="main">
+      <p className="sign" align="center">
+        Sign in
+      </p>
+      <form  className="form1">
+        <input className="username" type="text" placeholder="Username"/>
+        <input className="password" type="password" placeholder="Password"/>
+        <a className="submit" align="center">
+          Sign in
+        </a>
+        <p className="forgot" align="center">
+          <a href="#">Forgot Password</a>
+        </p>
+      </form>
+    </div>
+  )
+}
+
+ 
 // function Login() {
 //     const [username, setUsername] = useState('');
 //     const [password, setPassword] = useState('');
 
 
-//     const Login = (e) => {
+//     const handleSubmit = (e) => {
 //       e.preventDefault();
 //       // Login işlemi yapılacak
 //     };
 
 //     return (
-//       <form onSubmit={Login}>
+//       <form onSubmit={handleSubmit}>
 //         <input
 //           type="text"
 //           placeholder="Kullanıcı Adı"
@@ -30,3 +51,4 @@
 //       </form>
 //     );
 //   }
+   export default Login;

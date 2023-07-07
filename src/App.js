@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Component, createContext, useState } from "react";
 import {
   AiOutlineDelete,
   AiOutlineCheck,
@@ -9,7 +9,13 @@ import {
   AiOutlinePlus,
 } from "react-icons/ai";
 import { BsFillMoonFill, BsSun } from "react-icons/bs";
-// import Login from './components/Login';
+import Login from './pages/Login';
+import { BrowserRouter as Router, Switch, Route, Redirect, Routes } from "react-router-dom";
+import ReactSwitch from "react-switch";
+
+
+export const ThemeContext= createContext(null);
+
 
 function App() {
   const [newTask, setNewTask] = useState("");
@@ -17,6 +23,24 @@ function App() {
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState([]);
   const [addButton, setaddButton] = useState(false);
+
+  //darkmode
+  const [theme,setTheme]=useState("light");
+  const toggleTheme=() => {
+    setTheme((curr) =>(curr ==="light" ? "dark": "light"));
+  }
+
+  //login
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // const handleLogin = () => {
+  //   setIsLoggedIn(true);
+  // };
+
+  // const handleLogout = () => {
+  //   setIsLoggedIn(false);
+  // };
+
 
   // Date
   const today = new Date();
@@ -82,8 +106,20 @@ function App() {
   }
 
   return (
-    <div className="responsive flex justify-center  items-center bg-cyan-100 min-h-screen">
-      {/* <Login /> */}
+    //darkmode
+    <ThemeContext.Provider value={{theme,toggleTheme}}>
+
+    <div className="responsive flex justify-center  items-center bg-cyan-100 min-h-screen" id={theme}>
+      <Router><Routes>
+        <Route path="/Login" element={<App/>}/>
+        {/* <Login/> */}
+
+        {/* dark mode */}
+        <div className="switch">
+        <label>{theme==="light" ? "Light Mode": "Dark Mode"}</label>
+        <ReactSwitch onChange={toggleTheme} checked={theme==="dark"}/>
+        </div>
+
       <div
         className={`w-screen  flex justify-center items-center ${
           modal ? "blur-sm" : ""
@@ -215,7 +251,9 @@ function App() {
           </div>
         </div>
       </div>
+      </Routes></Router>
     </div>
+    </ThemeContext.Provider>
   );
 }
 
