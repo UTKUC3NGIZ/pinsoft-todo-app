@@ -6,6 +6,7 @@ import {
   AiOutlineClose,
   AiOutlineFileAdd,
   AiOutlineProfile,
+  AiOutlinePlus,
 } from "react-icons/ai";
 import { BsFillMoonFill, BsSun } from "react-icons/bs";
 // import Login from './components/Login';
@@ -14,21 +15,12 @@ function App() {
   const [newTask, setNewTask] = useState("");
   const [tasks, setTasks] = useState([
     { id: 1, value: "deneme", completed: false },
+    { id: 2, value: "deneme", completed: true },
   ]);
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState([]);
   const [clickedTime, setClickedTime] = useState(null);
-
-  const [isDarkMode, setDarkMode] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  
-  //..
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
+  const [addButton, setaddButton] = useState(false);
 
   // Date
   const today = new Date();
@@ -47,6 +39,8 @@ function App() {
     setTasks((previousTasks) => [...previousTasks, taskAdded]);
 
     setNewTask("");
+
+    setaddButton(false);
   }
 
   /* delete task function, parameter: id */
@@ -85,14 +79,10 @@ function App() {
     setTasks(tasks.filter((todo) => !todo.completed));
   }
 
-  
-    
-
-  // dark mode
-
-  const toggleDarkMode = () => {
-    setDarkMode(!isDarkMode);
-  };
+  // addbutton
+  function plusButton() {
+    setaddButton(true);
+  }
 
   return (
     <div className="responsive flex justify-center items-center bg-cyan-100">
@@ -102,15 +92,10 @@ function App() {
           modal ? "blur-sm" : ""
         }`}
       >
-        <div className="absolute min-w-[50%]">
+        <div className="absolute min-w-[40%]">
           <div className="bg-gradient-to-r from-cyan-300 to-blue-400/75 p-10 rounded-t-xl">
             {/* Title */}
             <h1 className="text-2xl text-white">{formattedDate}</h1>
-            {/* <button onClick={toggleDarkMode} className=" text-xl">
-              {
-                isDarkMode ?<BsSun /> :<BsFillMoonFill/>
-              }
-            </button> */}
           </div>
 
           {/* lists of the entered tasks */}
@@ -120,7 +105,7 @@ function App() {
               return (
                 <div
                   key={task.id}
-                  className=" flex last:rounded-b-xl pl-10 hover:scale-110  shadow-xl shadow-cyan-200 items-center mb-1 justify-between border-2 border-transparent bg-white py-7 "
+                  className=" flex last:rounded-b-xl pl-10 hover:scale-110  shadow-xl shadow-cyan-200 items-center mb-1 justify-between border-2 border-transparent bg-white "
                 >
                   <div>
                     <div className="flex flex-col ">
@@ -136,34 +121,70 @@ function App() {
                       </h2>
                     </div>
                   </div>
-                  <div className="group hover:scale-110 flex">
-                    <img
-                    src="foto.png"
-                    alt="Profil Resmi"
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                    style={{ width: '50px', height: 'auto' }}
-
-                    />
-                  {isHovered && (
-                   <div>
-                   <li className="group hover:scale-110 flex"> <button onClick={() => addTask()}>
-                    <AiOutlineFileAdd />
-                    </button></li>
-                    <li className="group hover:scale-110 flex"><button onClick={() => modalBtn(task)}>
-                      <AiOutlineEdit />
-                    </button></li>
-                    <li className="group hover:scale-110 flex"><button onClick={() => deleteTask(task.id)}>
-                      <AiOutlineDelete />
-                    </button></li>
+                  <div className="flex items-center group">
+                    <button
+                      onClick={() => modalBtn(task)}
+                      className="text-lg border-2 rounded-full border-transparent shadow-lg  p-4 group-hover:block hidden"
+                    >
+                      <AiOutlineEdit className="text-cyan-400" />
+                    </button>
+                    <div className="flex flex-col justify-between gap-8">
+                      <button
+                        onClick={() => completedTasks()}
+                        className="text-lg border-2 rounded-full border-transparent shadow-lg  p-4 group-hover:block hidden"
+                      >
+                        <AiOutlineCheck className="text-cyan-400" />
+                      </button>
+                      <button
+                        onClick={() => deleteTask(task.id)}
+                        className="text-lg border-2 rounded-full border-transparent shadow-lg  p-4 group-hover:block hidden"
+                      >
+                        <AiOutlineDelete className="text-cyan-400" />
+                      </button>
                     </div>
-                  )}
-                  </div>
 
-                  <div className="flex "></div>
+                    <img
+                      src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                      alt=""
+                      className="w-14 group"
+                    />
+                  </div>
                 </div>
               );
             })}
+          </div>
+          <div className="flex justify-center mt-3 flex-col items-center">
+            <button
+              className={`text-lg border-2 rounded-full border-transparent shadow-lg  p-4 bg-white ${
+                addButton ? "!hidden" : ""
+              }`}
+              onClick={plusButton}
+            >
+              <AiOutlinePlus className="text-cyan-400" />
+            </button>
+            <div
+              className={`relative hidden  items-center w-full opacity-0  ${
+                addButton ? "animate-wiggle !flex !opacity-100" : ""
+              } `}
+            >
+              <input
+                type="text"
+                placeholder="Enter a new task!"
+                value={newTask}
+                onChange={(e) => setNewTask(e.target.value)}
+                className={`border-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none w-full placeholder:text-cyan-400 text-gray-600 ${
+                  addButton ? "animate-opacity" : ""
+                }`}
+              />
+              <button
+                onClick={() => addTask()}
+                className={`absolute right-0 pr-4 text-cyan-400   ${
+                  addButton ? "animate-opacity " : ""
+                }`}
+              >
+                Add
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -201,21 +222,9 @@ function App() {
   );
 }
 
-
 export default App;
 
 // <div >
-
-// <div className="inline-flex relative items-center mb-8">
-//   <input
-//     type="text"
-//     placeholder="Enter a new task!"
-//     value={newTask}
-//     onChange={(e) => setNewTask(e.target.value)}
-//     className="border-2 rounded-2xl border-black py-2 px-4 text-xl font-bold"
-//   />
-
-// </div>
 
 // </div>
 
@@ -223,7 +232,6 @@ export default App;
 //    <button onClick={() => completedTasks(task.id)}>
 //                       <AiOutlineCheck />
 //                     </button>
-            
-                 
-//                     <button onClick={deleteTodos}>delete completed</button> 
+
+//                     <button onClick={deleteTodos}>delete completed</button>
 // }
