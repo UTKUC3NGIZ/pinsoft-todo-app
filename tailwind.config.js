@@ -15,8 +15,8 @@ module.exports = {
 
       },
       animation: {
-        wiggle: "wiggle 2s ease-in-out ",
-        opacity: "opacity 2s ease-in-out ",
+        wiggle: "wiggle 1s ease-in-out ",
+        opacity: "opacity 1s ease-in-out ",
 
       },
 

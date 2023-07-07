@@ -13,10 +13,7 @@ import { BsFillMoonFill, BsSun } from "react-icons/bs";
 
 function App() {
   const [newTask, setNewTask] = useState("");
-  const [tasks, setTasks] = useState([
-    { id: 1, value: "deneme", completed: false },
-    { id: 2, value: "deneme", completed: true },
-  ]);
+  const [tasks, setTasks] = useState([]);
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState([]);
   const [clickedTime, setClickedTime] = useState(null);
@@ -57,7 +54,6 @@ function App() {
     );
     setTasks(newList);
   }
-
   /* Modal */
   function modalBtn(task) {
     setModal(!modal);
@@ -75,9 +71,9 @@ function App() {
     setTasks(changeTodo);
     setModal(false);
   }
-  function deleteTodos() {
-    setTasks(tasks.filter((todo) => !todo.completed));
-  }
+  // function deleteTodos() {
+  //   setTasks(tasks.filter((todo) => !todo.completed));
+  // }
 
   // addbutton
   function plusButton() {
@@ -100,12 +96,12 @@ function App() {
 
           {/* lists of the entered tasks */}
 
-          <div className="flex flex-col">
+          <div className="flex flex-col z-20">
             {tasks.map((task) => {
               return (
                 <div
                   key={task.id}
-                  className=" flex last:rounded-b-xl pl-10 hover:scale-110  shadow-xl shadow-cyan-200 items-center mb-1 justify-between border-2 border-transparent bg-white "
+                  className=" flex relative last:rounded-b-xl pl-10 border-l-8 border-transparent hover:border-cyan-300  shadow-xl shadow-cyan-200 items-center mb-1 justify-between  bg-white py-5 px-10"
                 >
                   <div>
                     <div className="flex flex-col ">
@@ -114,34 +110,34 @@ function App() {
                       </span>
                       <h2
                         className={`${
-                          task.completed ? "line-through" : ""
+                          task.completed ? "line-through text-gray-300" : ""
                         }   text-xl text-gray-600`}
                       >
                         {task.value}
                       </h2>
                     </div>
                   </div>
-                  <div className="flex items-center group">
+                  <div className="flex items-center group ">
                     <button
                       onClick={() => modalBtn(task)}
-                      className="text-lg border-2 rounded-full border-transparent shadow-lg  p-4 group-hover:block hidden"
+                      className="absolute text-lg p-3 border-2 border-transparent bg-white shadow-lg rounded-full right-28 hidden group-hover:!flex  "
                     >
                       <AiOutlineEdit className="text-cyan-400" />
                     </button>
-                    <div className="flex flex-col justify-between gap-8">
-                      <button
-                        onClick={() => completedTasks()}
-                        className="text-lg border-2 rounded-full border-transparent shadow-lg  p-4 group-hover:block hidden"
-                      >
-                        <AiOutlineCheck className="text-cyan-400" />
-                      </button>
-                      <button
-                        onClick={() => deleteTask(task.id)}
-                        className="text-lg border-2 rounded-full border-transparent shadow-lg  p-4 group-hover:block hidden"
-                      >
-                        <AiOutlineDelete className="text-cyan-400" />
-                      </button>
-                    </div>
+                    <span className="absolute w-20 h-20 right-9 "></span>
+
+                    <button
+                      onClick={() => completedTasks(task.id)}
+                      className="absolute text-lg p-3 border-2 border-transparent bg-white shadow-lg rounded-full -top-8  hidden group-hover:!flex  "
+                    >
+                      <AiOutlineCheck className="text-cyan-400" />
+                    </button>
+                    <button
+                      onClick={() => deleteTask(task.id)}
+                      className="absolute text-lg p-3 border-2 border-transparent bg-white shadow-lg rounded-full -bottom-8 hidden group-hover:!flex z-50"
+                    >
+                      <AiOutlineDelete className="text-cyan-400" />
+                    </button>
 
                     <img
                       src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
