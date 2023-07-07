@@ -30,7 +30,9 @@ function App() {
       id: Math.floor(Math.random() * 2000),
       value: newTask,
       completed: false,
+      time:clickedTime
     };
+    console.log(clickedTime)
     setClickedTime(today.toLocaleTimeString());
 
     setTasks((previousTasks) => [...previousTasks, taskAdded]);
@@ -106,7 +108,7 @@ function App() {
                   <div>
                     <div className="flex flex-col ">
                       <span className="text-gray-400 text-xl">
-                        {clickedTime}
+                        {task.time}
                       </span>
                       <h2
                         className={`${
@@ -120,7 +122,7 @@ function App() {
                   <div className="flex items-center group ">
                     <button
                       onClick={() => modalBtn(task)}
-                      className="absolute text-lg p-3 border-2 border-transparent bg-white shadow-lg rounded-full right-28 hidden group-hover:!flex  "
+                      className="absolute text-lg p-3 border-2 border-transparent bg-white shadow-lg rounded-full right-28 hidden group-hover:!flex hover:scale-110 "
                     >
                       <AiOutlineEdit className="text-cyan-400" />
                     </button>
@@ -128,13 +130,13 @@ function App() {
 
                     <button
                       onClick={() => completedTasks(task.id)}
-                      className="absolute text-lg p-3 border-2 border-transparent bg-white shadow-lg rounded-full -top-8  hidden group-hover:!flex  "
+                      className="absolute text-lg p-3 border-2 border-transparent bg-white shadow-lg rounded-full -top-8  hidden group-hover:!flex  hover:scale-110 "
                     >
                       <AiOutlineCheck className="text-cyan-400" />
                     </button>
                     <button
                       onClick={() => deleteTask(task.id)}
-                      className="absolute text-lg p-3 border-2 border-transparent bg-white shadow-lg rounded-full -bottom-8 hidden group-hover:!flex z-50"
+                      className="absolute text-lg p-3 border-2 border-transparent bg-white shadow-lg rounded-full -bottom-8 hidden group-hover:!flex z-50 hover:scale-110"
                     >
                       <AiOutlineDelete className="text-cyan-400" />
                     </button>
