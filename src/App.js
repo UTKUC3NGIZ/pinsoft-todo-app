@@ -81,14 +81,14 @@ function App() {
   }
 
   return (
-    <div className="responsive flex justify-center items-center bg-cyan-100">
+    <div className="responsive flex justify-center  items-center bg-cyan-100 min-h-screen">
       {/* <Login /> */}
       <div
-        className={`w-screen h-screen relative flex justify-center items-center ${
+        className={`w-screen  flex justify-center items-center ${
           modal ? "blur-sm" : ""
         }`}
       >
-        <div className="absolute min-w-[40%]">
+        <div className=" min-w-[40%]">
           <div className="bg-gradient-to-r from-cyan-300 to-blue-400/75 p-10 rounded-t-xl">
             {/* Title */}
             <h1 className="text-2xl text-white">{formattedDate}</h1>
@@ -185,28 +185,28 @@ function App() {
         </div>
       </div>
       <div className={`absolute ${modal ? "block" : "hidden"} `}>
-        <div className="border-2 border-black px-20 py-10 bg-white relative rounded-2xl">
+        <div className="border-2 border-transparent shadow-lg px-20 py-10 bg-white relative rounded-2xl">
           <AiOutlineClose
             className="absolute top-2 right-2 text-2xl cursor-pointer"
             onClick={() => setModal(false)}
           />
-          <h2 className="absolute top-2 left-2 text-xl font-bold">Edit Todo</h2>
+          <h2 className="absolute top-2 left-2 text-xl font-bold text-cyan-300">Edit Todo</h2>
           <div className="flex items-center justify-between">
-            <span className="text-xl font-bold mr-2 line-through">
+            <span className="text-xl font-bold mr-2 line-through text-gray-300">
               {edit.value}
             </span>
-            <span className="text-xl font-bold">=</span>
+            <span className="text-xl font-bold text-cyan-300">=</span>
             <div className="relative flex">
               <input
                 type="text"
                 value={edit.value}
                 onChange={(e) => editTask(e.target.value)}
                 placeholder="Update the task!"
-                className="border-2 ml-2 rounded-2xl border-black py-2 px-4 text-xl font-bold"
+                className="border-2 ml-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold text-gray-600 outline-cyan-300"
               />
               <button
                 onClick={() => change()}
-                className="absolute text-xl right-4 pl-2 border-l-2 border-black h-full rounded-2xl"
+                className="absolute text-xl right-4 pl-2 h-full rounded-2xl text-cyan-300 "
               >
                 Add
               </button>
