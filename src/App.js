@@ -16,32 +16,31 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState([]);
-  const [clickedTime, setClickedTime] = useState(null);
   const [addButton, setaddButton] = useState(false);
 
   // Date
   const today = new Date();
   const dateOptions = { year: "numeric", month: "long", day: "numeric" };
   const formattedDate = today.toLocaleDateString(undefined, dateOptions);
-
+  
   /* add task function*/
   function addTask() {
+    const timeOptions = { hour: '2-digit', minute: '2-digit' };
+    const todoAddDate = today.toLocaleTimeString([], timeOptions);
+  
     const taskAdded = {
       id: Math.floor(Math.random() * 2000),
       value: newTask,
       completed: false,
-      time:clickedTime
+      time: todoAddDate,
     };
-    console.log(clickedTime)
-    setClickedTime(today.toLocaleTimeString());
-
+  
     setTasks((previousTasks) => [...previousTasks, taskAdded]);
-
     setNewTask("");
-
     setaddButton(false);
   }
 
+  console.log(tasks);
   /* delete task function, parameter: id */
   function deleteTask(id) {
     /* we add the new array all the tasks whose id's are different*/
@@ -107,9 +106,7 @@ function App() {
                 >
                   <div>
                     <div className="flex flex-col ">
-                      <span className="text-gray-400 text-xl">
-                        {task.time}
-                      </span>
+                      <span className="text-gray-400 text-xl">{task.time}</span>
                       <h2
                         className={`${
                           task.completed ? "line-through text-gray-300" : ""
@@ -192,7 +189,9 @@ function App() {
             className="absolute top-2 right-2 text-2xl cursor-pointer"
             onClick={() => setModal(false)}
           />
-          <h2 className="absolute top-2 left-2 text-xl font-bold text-cyan-300">Edit Todo</h2>
+          <h2 className="absolute top-2 left-2 text-xl font-bold text-cyan-300">
+            Edit Todo
+          </h2>
           <div className="flex items-center justify-between">
             <span className="text-xl font-bold mr-2 line-through text-gray-300">
               {edit.value}
