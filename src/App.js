@@ -148,9 +148,9 @@ function App() {
             modal ? "blur-sm" : ""
           }`}
         >
-          <div className=" min-w-[40%]">
+          <div className=" min-w-[40%] w-3/4 md:w-auto">
             <div
-              className={`bg-gradient-to-r p-10 rounded-t-xl flex justify-around relative ${
+              className={`bg-gradient-to-r p-10 rounded-t-xl flex justify-between lg:flex-row flex-col items-start lg:items-center relative ${
                 theme
                   ? "from-slate-800 to-slate-600/40"
                   : "from-cyan-300 to-blue-400/75"
@@ -179,7 +179,7 @@ function App() {
                 return (
                   <div
                     key={task.id}
-                    className={` flex relative hover:scale-110 hover:z-10 last:rounded-b-xl pl-10 border-l-8 border-transparent  items-center mb-1 justify-between shadow-xl   py-5 px-10 ${
+                    className={` flex relative hover:scale-110 hover:z-10 last:rounded-b-xl lg:pl-10 border-l-8 border-transparent  items-center mb-1 justify-between shadow-xl   py-5 lg:px-10 px-5  ${
                       theme
                         ? "hover:border-slate-600   shadow-slate-800 bg-slate-700"
                         : "hover:border-cyan-300  shadow-cyan-200 bg-white"
@@ -276,9 +276,9 @@ function App() {
             </div>
           </div>
         </div>
-        <div className={`absolute ${modal ? "block" : "hidden"} `}>
+        <div className={`absolute sm:w-auto w-full ${modal ? "block" : "hidden"} `}>
           <div
-            className={`border-2 border-transparent shadow-lg px-20 py-10  relative rounded-2xl ${
+            className={`border-2 border-transparent shadow-lg lg:px-20 lg:py-10 px-10 py-5 relative rounded-2xl ${
               theme ? "bg-slate-800 " : "bg-white"
             }`}
           >
@@ -291,8 +291,8 @@ function App() {
             <h2 className="absolute top-2 left-2 text-xl font-bold text-cyan-300">
               Edit Todo
             </h2>
-            <div className="flex items-center justify-between">
-              <span className="text-xl font-bold mr-2 line-through text-gray-300">
+            <div className="flex items-center sm:justify-center justify-between flex-col sm:flex-row">
+              <span className="text-xl font-bold sm:mr-2 line-through text-gray-300 max-w-xs overflow-hidden">
                 {edit.value}
               </span>
               <span className="text-xl font-bold text-cyan-300">=</span>
@@ -303,7 +303,7 @@ function App() {
                     value={edit.value}
                     onChange={(e) => editTask(e.target.value)}
                     placeholder="Update the task!"
-                    className={`border-2 ml-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold text-gray-600  ${
+                    className={`border-2 ml-2 rounded-2xl border-transparent shadow-lg py-2 sm:px-4 pl-2 pr-24 text-xl font-bold text-gray-600 placeholder:w-2 ${
                       theme
                         ? "bg-slate-700 text-white outline-none"
                         : "bg-white outline-cyan-300"
