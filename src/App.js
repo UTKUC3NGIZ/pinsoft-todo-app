@@ -9,13 +9,13 @@ import {
   AiOutlinePlus,
 } from "react-icons/ai";
 import { BsFillMoonFill, BsSun } from "react-icons/bs";
-import Login from './pages/Login';
-import { BrowserRouter as Router, Switch, Route, Redirect, Routes } from "react-router-dom";
-import ReactSwitch from "react-switch";
+import Login from "./pages/Login";
+import toast, { Toaster } from "react-hot-toast";
 
+// import { BrowserRouter as Router, Switch, Route, Redirect, Routes } from "react-router-dom";
+// import ReactSwitch from "react-switch";
 
-export const ThemeContext= createContext(null);
-
+export const ThemeContext = createContext(null);
 
 function App() {
   const [newTask, setNewTask] = useState("");
@@ -25,10 +25,10 @@ function App() {
   const [addButton, setaddButton] = useState(false);
 
   //darkmode
-  const [theme,setTheme]=useState("light");
-  const toggleTheme=() => {
-    setTheme((curr) =>(curr ==="light" ? "dark": "light"));
-  }
+  const [theme, setTheme] = useState("light");
+  const toggleTheme = () => {
+    setTheme((curr) => (curr === "light" ? "dark" : "light"));
+  };
 
   //login
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -41,35 +41,43 @@ function App() {
   //   setIsLoggedIn(false);
   // };
 
-
   // Date
   const today = new Date();
   const dateOptions = { year: "numeric", month: "long", day: "numeric" };
   const formattedDate = today.toLocaleDateString(undefined, dateOptions);
-  
+
   /* add task function*/
   function addTask() {
-    const timeOptions = { hour: '2-digit', minute: '2-digit' };
-    const todoAddDate = today.toLocaleTimeString([], timeOptions);
-  
-    const taskAdded = {
-      id: Math.floor(Math.random() * 2000),
-      value: newTask,
-      completed: false,
-      time: todoAddDate,
-    };
-  
-    setTasks((previousTasks) => [...previousTasks, taskAdded]);
-    setNewTask("");
-    setaddButton(false);
+    if (newTask.length !== 0) {
+      const timeOptions = { hour: "2-digit", minute: "2-digit" };
+      const todoAddDate = today.toLocaleTimeString([], timeOptions);
+
+      const taskAdded = {
+        id: Math.floor(Math.random() * 2000),
+        value: newTask,
+        completed: false,
+        time: todoAddDate,
+      };
+
+      setTasks((previousTasks) => [...previousTasks, taskAdded]);
+      setNewTask("");
+      setaddButton(false);
+      toast.success("Task Added!");
+    } else {
+      toast("don't be idle!", {
+        icon: "😡",
+      });
+    }
   }
 
-  console.log(tasks);
   /* delete task function, parameter: id */
   function deleteTask(id) {
     /* we add the new array all the tasks whose id's are different*/
     const newList = tasks.filter((task) => task.id !== id);
     setTasks(newList);
+    toast("Task Deleted!", {
+      icon: "🗑️",
+    });
   }
 
   /* to complete a task */
@@ -78,6 +86,15 @@ function App() {
       task.id === id ? { ...task, completed: !task.completed } : task
     );
     setTasks(newList);
+    if( newList[0].completed !== false){
+      toast("it's over finally!",{
+        icon:"🏌️",
+      });
+    }else{
+      toast("turn back o7!",{
+        icon:"🧑‍💼",
+      });
+    }  
   }
   /* Modal */
   function modalBtn(task) {
@@ -95,6 +112,10 @@ function App() {
     );
     setTasks(changeTodo);
     setModal(false);
+
+    toast("Task Updated!", {
+      icon: "✏️",
+    });
   }
   // function deleteTodos() {
   //   setTasks(tasks.filter((todo) => !todo.completed));
@@ -107,18 +128,24 @@ function App() {
 
   return (
     //darkmode
-    <ThemeContext.Provider value={{theme,toggleTheme}}>
+    // <ThemeContext.Provider value={{theme,toggleTheme}}>
 
-    <div className="responsive flex justify-center  items-center bg-cyan-100 min-h-screen" id={theme}>
-      <Router><Routes>
-        <Route path="/Login" element={<App/>}/>
-        {/* <Login/> */}
+    <div
+      className="responsive flex justify-center  items-center bg-cyan-100 min-h-screen"
+      id={theme}
+    >
+      <Toaster />
+      {/* <button onClick={updTaskWarning}>Make me a toast</button> */}
 
-        {/* dark mode */}
-        <div className="switch">
-        <label>{theme==="light" ? "Light Mode": "Dark Mode"}</label>
-        <ReactSwitch onChange={toggleTheme} checked={theme==="dark"}/>
-        </div>
+      {/* <Router><Routes> */}
+      {/* <Route path="/Login" element={<App/>}/> */}
+      {/* <Login/> */}
+
+      {/* dark mode */}
+      <div className="switch">
+        <label>{theme === "light" ? "Light Mode" : "Dark Mode"}</label>
+        {/* <ReactSwitch onChange={toggleTheme} checked={theme==="dark"}/> */}
+      </div>
 
       <div
         className={`w-screen  flex justify-center items-center ${
@@ -251,9 +278,9 @@ function App() {
           </div>
         </div>
       </div>
-      </Routes></Router>
+      {/* </Routes></Router> */}
     </div>
-    </ThemeContext.Provider>
+    // </ThemeContext.Provider>
   );
 }
 
