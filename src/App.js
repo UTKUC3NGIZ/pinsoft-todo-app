@@ -9,13 +9,13 @@ import {
   AiOutlinePlus,
 } from "react-icons/ai";
 import { BsFillMoonFill, BsSun } from "react-icons/bs";
-import Login from './pages/Login';         
-import toast, { Toaster } from 'react-hot-toast'; 
+import Login from "./pages/Login";
+import toast, { Toaster } from "react-hot-toast";
 
 // import { BrowserRouter as Router, Switch, Route, Redirect, Routes } from "react-router-dom";
 
-import ReactSwitch from "react-switch";
-export const ThemeContext= createContext("null ");
+// import ReactSwitch from "react-switch";
+export const ThemeContext = createContext("null ");
 
 function App() {
   const [newTask, setNewTask] = useState("");
@@ -23,15 +23,13 @@ function App() {
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState([]);
   const [addButton, setaddButton] = useState(false);
- 
 
   /* light/dark mode */
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState(false);
   const toggleTheme = () => {
-    setTheme((curr) =>(curr ==="light" ? "dark": "light"));
-  }
+    setTheme(!theme);
+  };
 
-  console.log(theme)
 
   /* login */
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -43,7 +41,6 @@ function App() {
   // const handleLogout = () => {
   //   setIsLoggedIn(false);
   // };
-
 
   /* date */
   const today = new Date();
@@ -111,7 +108,8 @@ function App() {
     setEdit({ ...edit, value: e });
   }
   /* edit existing tasks */
-  function change() {
+  function change(e) {
+    e.preventDefault();
     const changeTodo = tasks.map((task) =>
       task.id === edit.id ? { ...task, value: edit.value } : task
     );
@@ -134,165 +132,173 @@ function App() {
 
   return (
     //darkmode
-    <ThemeContext.Provider value={{theme,toggleTheme}}>
-    <div className = {`responsive flex justify-center  items-center bg-cyan-100 min-h-screen ${theme==="dark" ? "bg-black" : "bg-cyan-100"}`}>
-    <Toaster />
-      {/* <Router><Routes> */}
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      <div
+        className={`responsive flex justify-center  items-center min-h-screen ${
+          theme ? "bg-black" : "bg-white"
+        }`}
+      >
+        <Toaster />
+        {/* <Router><Routes> */}
         {/* <Route path="/Login" element={<App/>}/> */}
         {/* <Login/> */}
 
         {/* dark mode */}
-        <div className="switch">
-        {/* <ReactSwitch onChange={toggleTheme} checked={theme==="dark"}/> */}
+        <div>
+          {/* <ReactSwitch onChange={toggleTheme} checked={theme==="dark"}/> */}
         </div>
-      <div
-        className={`w-screen  flex justify-center items-center ${
-          modal ? "blur-sm" : ""
-        }`}
-      >
-        <div className=" min-w-[40%]">
-          <div className="bg-gradient-to-r from-cyan-300 to-blue-400/75 p-10 rounded-t-xl flex justify-around">
-            {/* Title */}
-            <h1 className="text-2xl text-white">{formattedDate}</h1>
-            <button
+        <div
+          className={`w-screen  flex justify-center items-center ${
+            modal ? "blur-sm" : ""
+          }`}
+        >
+          <div className=" min-w-[40%]">
+            <div className="bg-gradient-to-r from-cyan-300 to-blue-400/75 p-10 rounded-t-xl flex justify-around relative">
+              {/* Title */}
+              <h1 className="text-2xl text-white">{formattedDate}</h1>
+              <button
                 onClick={() => deleteCompleted()}
                 className="text-l text-white "
               >
-                Delete Completed Tasks
+                Clear Completed
               </button>
-            {/*<label>{theme==="light" ? "Light Mode": "Dark Mode"}</label>*/}
-          </div>
+              <button onClick={toggleTheme} className="absolute top-0 right-0 p-3 text-xl" >{theme ? <BsSun/> : <BsFillMoonFill className="text-white"/>}</button>
 
-          {/* lists of the entered tasks */}
+            </div>
 
-          <div className="flex flex-col z-20">
-            {tasks.map((task) => {
-              return (
-                <div
-                  key={task.id}
-                  className=" flex relative hover:scale-110 hover:z-10 last:rounded-b-xl pl-10 border-l-8 border-transparent hover:border-cyan-300  shadow-xl shadow-cyan-200 items-center mb-1 justify-between  bg-white py-5 px-10"
-                >
-                  <div>
-                    <div className="flex flex-col ">
-                      <span className="text-gray-400 text-xl ">
-                        {task.time}
-                      </span>
-                      <h2
-                        className={`${
-                          task.completed ? "line-through text-gray-300" : ""
-                        }   text-xl text-gray-600`}
+            {/* lists of the entered tasks */}
+
+            <div className="flex flex-col z-20">
+              {tasks.map((task) => {
+                return (
+                  <div
+                    key={task.id}
+                    className=" flex relative hover:scale-110 hover:z-10 last:rounded-b-xl pl-10 border-l-8 border-transparent hover:border-cyan-300  shadow-xl shadow-cyan-200 items-center mb-1 justify-between  bg-white py-5 px-10"
+                  >
+                    <div>
+                      <div className="flex flex-col ">
+                        <span className="text-gray-400 text-xl ">
+                          {task.time}
+                        </span>
+                        <h2
+                          className={`${
+                            task.completed ? "line-through text-gray-300" : ""
+                          }   text-xl text-gray-600`}
+                        >
+                          {task.value}
+                        </h2>
+                      </div>
+                    </div>
+                    <div className="flex items-center group ">
+                      <button
+                        onClick={() => modalBtn(task)}
+                        className="absolute text-lg p-3 border-2 border-transparent bg-white shadow-lg rounded-full right-28 hidden group-hover:!flex hover:scale-110 "
                       >
-                        {task.value}
-                      </h2>
+                        <AiOutlineEdit className="text-cyan-400" />
+                      </button>
+                      <span className="absolute w-20 h-20 right-9 "></span>
+
+                      <button
+                        onClick={() => completedTasks(task.id)}
+                        className="absolute text-lg p-3 border-2 border-transparent bg-white shadow-lg rounded-full -top-8  hidden group-hover:!flex  hover:scale-110 "
+                      >
+                        <AiOutlineCheck className="text-cyan-400" />
+                      </button>
+                      <button
+                        onClick={() => deleteTask(task.id)}
+                        className="absolute text-lg p-3 border-2 border-transparent bg-white shadow-lg rounded-full -bottom-8 hidden group-hover:!flex z-50 hover:scale-110"
+                      >
+                        <AiOutlineDelete className="text-cyan-400" />
+                      </button>
+
+                      <img
+                        src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                        alt=""
+                        className="w-14 group"
+                      />
                     </div>
                   </div>
-                  <div className="flex items-center group ">
-                    <button
-                      onClick={() => modalBtn(task)}
-                      className="absolute text-lg p-3 border-2 border-transparent bg-white shadow-lg rounded-full right-28 hidden group-hover:!flex hover:scale-110 "
-                    >
-                      <AiOutlineEdit className="text-cyan-400" />
-                    </button>
-                    <span className="absolute w-20 h-20 right-9 "></span>
-
-                    <button
-                      onClick={() => completedTasks(task.id)}
-                      className="absolute text-lg p-3 border-2 border-transparent bg-white shadow-lg rounded-full -top-8  hidden group-hover:!flex  hover:scale-110 "
-                    >
-                      <AiOutlineCheck className="text-cyan-400" />
-                    </button>
-                    <button
-                      onClick={() => deleteTask(task.id)}
-                      className="absolute text-lg p-3 border-2 border-transparent bg-white shadow-lg rounded-full -bottom-8 hidden group-hover:!flex z-50 hover:scale-110"
-                    >
-                      <AiOutlineDelete className="text-cyan-400" />
-                    </button>
-
-                    <img
-                      src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-                      alt=""
-                      className="w-14 group"
-                    />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          <div className="flex justify-center mt-3 flex-col items-center">
-            <button
-              className={`text-lg border-2 rounded-full border-transparent shadow-lg  p-4 bg-white ${addButton ? "!hidden" : ""}`}
-              onClick={plusButton}
-            >
-              <AiOutlinePlus className="text-cyan-400" />
-            </button>
-            <div
-              className={`relative hidden  items-center w-full opacity-0  ${
-                addButton ? "animate-wiggle !flex !opacity-100" : ""
-              } `}
-            >
-              <form className="w-full flex items-center">
-                <input
-                  type="text"
-                  placeholder="Enter a new task!"
-                  value={newTask}
-                  onChange={(e) => setNewTask(e.target.value)}
-                  className={`border-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none w-full placeholder:text-cyan-400 text-gray-600 ${
-                    addButton ? "animate-opacity" : ""
-                  }`}
-                />
-                <button
-                  onClick={(e) => addTask(e)}
-                  className={`absolute right-0 pr-4 text-cyan-400   ${
-                    addButton ? "animate-opacity " : ""
-                  }`}
-                >
-                  Add
-                </button>
-              </form>
+                );
+              })}
+            </div>
+            <div className="flex justify-center mt-3 flex-col items-center">
+              <button
+                className={`text-lg border-2 rounded-full border-transparent shadow-lg  p-4 bg-white ${
+                  addButton ? "!hidden" : ""
+                }`}
+                onClick={plusButton}
+              >
+                <AiOutlinePlus className="text-cyan-400" />
+              </button>
+              <div
+                className={`relative hidden  items-center w-full opacity-0  ${
+                  addButton ? "animate-wiggle !flex !opacity-100" : ""
+                } `}
+              >
+                <form className="w-full flex items-center">
+                  <input
+                    type="text"
+                    placeholder="Enter a new task!"
+                    value={newTask}
+                    onChange={(e) => setNewTask(e.target.value)}
+                    className={`border-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none w-full placeholder:text-cyan-400 text-gray-600 ${
+                      addButton ? "animate-opacity" : ""
+                    }`}
+                  />
+                  <button
+                    onClick={(e) => addTask(e)}
+                    className={`absolute right-0 pr-4 text-cyan-400   ${
+                      addButton ? "animate-opacity " : ""
+                    }`}
+                  >
+                    Add
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className={`absolute ${modal ? "block" : "hidden"} `}>
-        <div className="border-2 border-transparent shadow-lg px-20 py-10 bg-white relative rounded-2xl">
-          <AiOutlineClose
-            className="absolute top-2 right-2 text-2xl cursor-pointer"
-            onClick={() => setModal(false)}
-          />
-          <h2 className="absolute top-2 left-2 text-xl font-bold text-cyan-300">
-            Edit Todo
-          </h2>
-          <div className="flex items-center justify-between">
-            <span className="text-xl font-bold mr-2 line-through text-gray-300">
-              {edit.value}
-            </span>
-            <span className="text-xl font-bold text-cyan-300">=</span>
-            <div className="relative flex">
-              <form>
-                <input
-                  type="text"
-                  value={edit.value}
-                  onChange={(e) => editTask(e.target.value)}
-                  placeholder="Update the task!"
-                  className="border-2 ml-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold text-gray-600 outline-cyan-300"
-                />
-                <button
-                  onClick={(e) => change(e)}
-                  className="absolute text-xl right-4 pl-2 h-full rounded-2xl text-cyan-300 "
-                >
-                  Add
-                </button>
-              </form>
+        <div className={`absolute ${modal ? "block" : "hidden"} `}>
+          <div className="border-2 border-transparent shadow-lg px-20 py-10 bg-white relative rounded-2xl">
+            <AiOutlineClose
+              className="absolute top-2 right-2 text-2xl cursor-pointer"
+              onClick={() => setModal(false)}
+            />
+            <h2 className="absolute top-2 left-2 text-xl font-bold text-cyan-300">
+              Edit Todo
+            </h2>
+            <div className="flex items-center justify-between">
+              <span className="text-xl font-bold mr-2 line-through text-gray-300">
+                {edit.value}
+              </span>
+              <span className="text-xl font-bold text-cyan-300">=</span>
+              <div className="relative flex">
+                <form>
+                  <input
+                    type="text"
+                    value={edit.value}
+                    onChange={(e) => editTask(e.target.value)}
+                    placeholder="Update the task!"
+                    className="border-2 ml-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold text-gray-600 outline-cyan-300"
+                  />
+                  <button
+                    onClick={(e) => change(e)}
+                    className="absolute text-xl right-4 pl-2 h-full rounded-2xl text-cyan-300 "
+                  >
+                    Change
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
+        {/* </Routes></Router> */}
       </div>
-      {/* </Routes></Router> */}
-    </div>
-    <div>
-      <ReactSwitch onChange = {toggleTheme} checked={theme==="dark" }/>
-    </div>
-  </ThemeContext.Provider>
+      <div>
+        {/* <ReactSwitch onChange={toggleTheme} checked={theme === false} /> */}
+       
+      </div>
+    </ThemeContext.Provider>
   );
 }
 
