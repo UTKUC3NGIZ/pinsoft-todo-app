@@ -9,24 +9,13 @@ import {
   AiOutlinePlus,
 } from "react-icons/ai";
 import { BsFillMoonFill, BsSun } from "react-icons/bs";
-<<<<<<< HEAD
-import Login from './pages/Login';
-import toast, { Toaster } from 'react-hot-toast';
+import Login from './pages/Login';         
+import toast, { Toaster } from 'react-hot-toast'; 
 
 // import { BrowserRouter as Router, Switch, Route, Redirect, Routes } from "react-router-dom";
 
 import ReactSwitch from "react-switch";
 export const ThemeContext= createContext("null ");
-
-=======
-import Login from "./pages/Login";
-import toast, { Toaster } from "react-hot-toast";
-
-// import { BrowserRouter as Router, Switch, Route, Redirect, Routes } from "react-router-dom";
-// import ReactSwitch from "react-switch";
-
-export const ThemeContext = createContext(null);
->>>>>>> 8ee8a7ec05428579adb43252fc4ae2b64838832d
 
 function App() {
   const [newTask, setNewTask] = useState("");
@@ -34,20 +23,13 @@ function App() {
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState([]);
   const [addButton, setaddButton] = useState(false);
+ 
 
-<<<<<<< HEAD
   /* light/dark mode */
   const [theme, setTheme] = useState("light");
   const toggleTheme = () => {
     setTheme((curr) =>(curr ==="light" ? "dark": "light"));
   }
-=======
-  //darkmode
-  const [theme, setTheme] = useState("light");
-  const toggleTheme = () => {
-    setTheme((curr) => (curr === "light" ? "dark" : "light"));
-  };
->>>>>>> 8ee8a7ec05428579adb43252fc4ae2b64838832d
 
   console.log(theme)
 
@@ -62,12 +44,8 @@ function App() {
   //   setIsLoggedIn(false);
   // };
 
-<<<<<<< HEAD
 
   /* date */
-=======
-  // Date
->>>>>>> 8ee8a7ec05428579adb43252fc4ae2b64838832d
   const today = new Date();
   const dateOptions = { year: "numeric", month: "long", day: "numeric" };
   const formattedDate = today.toLocaleDateString(undefined, dateOptions);
@@ -132,14 +110,8 @@ function App() {
   function editTask(e) {
     setEdit({ ...edit, value: e });
   }
-<<<<<<< HEAD
   /* edit existing tasks */
   function change() {
-=======
-  // change Todo
-  function change(e) {
-    e.preventDefault();
->>>>>>> 8ee8a7ec05428579adb43252fc4ae2b64838832d
     const changeTodo = tasks.map((task) =>
       task.id === edit.id ? { ...task, value: edit.value } : task
     );
@@ -162,9 +134,9 @@ function App() {
 
   return (
     //darkmode
-<<<<<<< HEAD
     <ThemeContext.Provider value={{theme,toggleTheme}}>
     <div className = {`responsive flex justify-center  items-center bg-cyan-100 min-h-screen ${theme==="dark" ? "bg-black" : "bg-cyan-100"}`}>
+    <Toaster />
       {/* <Router><Routes> */}
         {/* <Route path="/Login" element={<App/>}/> */}
         {/* <Login/> */}
@@ -173,27 +145,6 @@ function App() {
         <div className="switch">
         {/* <ReactSwitch onChange={toggleTheme} checked={theme==="dark"}/> */}
         </div>
-=======
-    // <ThemeContext.Provider value={{theme,toggleTheme}}>
-
-    <div
-      className="responsive flex justify-center  items-center bg-cyan-100 min-h-screen"
-      id={theme}
-    >
-      <Toaster />
-      {/* <button onClick={updTaskWarning}>Make me a toast</button> */}
-
-      {/* <Router><Routes> */}
-      {/* <Route path="/Login" element={<App/>}/> */}
-      {/* <Login/> */}
-
-      {/* dark mode */}
-      <div className="switch">
-        <label>{theme === "light" ? "Light Mode" : "Dark Mode"}</label>
-        {/* <ReactSwitch onChange={toggleTheme} checked={theme==="dark"}/> */}
-      </div>
-
->>>>>>> 8ee8a7ec05428579adb43252fc4ae2b64838832d
       <div
         className={`w-screen  flex justify-center items-center ${
           modal ? "blur-sm" : ""
@@ -269,9 +220,7 @@ function App() {
           </div>
           <div className="flex justify-center mt-3 flex-col items-center">
             <button
-              className={`text-lg border-2 rounded-full border-transparent shadow-lg  p-4 bg-white ${
-                addButton ? "!hidden" : ""
-              }`}
+              className={`text-lg border-2 rounded-full border-transparent shadow-lg  p-4 bg-white ${addButton ? "!hidden" : ""}`}
               onClick={plusButton}
             >
               <AiOutlinePlus className="text-cyan-400" />
@@ -340,14 +289,10 @@ function App() {
       </div>
       {/* </Routes></Router> */}
     </div>
-<<<<<<< HEAD
     <div>
       <ReactSwitch onChange = {toggleTheme} checked={theme==="dark" }/>
     </div>
   </ThemeContext.Provider>
-=======
-    // </ThemeContext.Provider>
->>>>>>> 8ee8a7ec05428579adb43252fc4ae2b64838832d
   );
 }
 
