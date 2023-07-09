@@ -121,7 +121,6 @@ function App() {
         <div className="switch">
         {/* <ReactSwitch onChange={toggleTheme} checked={theme==="dark"}/> */}
         </div>
-
       <div
         className={`w-screen  flex justify-center items-center ${
           modal ? "blur-sm" : ""
