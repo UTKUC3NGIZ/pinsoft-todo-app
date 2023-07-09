@@ -47,7 +47,8 @@ function App() {
   const formattedDate = today.toLocaleDateString(undefined, dateOptions);
 
   /* add task function*/
-  function addTask() {
+  function addTask(e) {
+    e.preventDefault();
     if (newTask.length !== 0) {
       const timeOptions = { hour: "2-digit", minute: "2-digit" };
       const todoAddDate = today.toLocaleTimeString([], timeOptions);
@@ -86,15 +87,15 @@ function App() {
       task.id === id ? { ...task, completed: !task.completed } : task
     );
     setTasks(newList);
-    if( newList[0].completed !== false){
-      toast("it's over finally!",{
-        icon:"🏌️",
+    if (newList[0].completed !== false) {
+      toast("it's over finally!", {
+        icon: "🏌️",
       });
-    }else{
-      toast("turn back o7!",{
-        icon:"🧑‍💼",
+    } else {
+      toast("turn back o7!", {
+        icon: "🧑‍💼",
       });
-    }  
+    }
   }
   /* Modal */
   function modalBtn(task) {
@@ -106,7 +107,8 @@ function App() {
     setEdit({ ...edit, value: e });
   }
   // change Todo
-  function change() {
+  function change(e) {
+    e.preventDefault();
     const changeTodo = tasks.map((task) =>
       task.id === edit.id ? { ...task, value: edit.value } : task
     );
@@ -225,23 +227,25 @@ function App() {
                 addButton ? "animate-wiggle !flex !opacity-100" : ""
               } `}
             >
-              <input
-                type="text"
-                placeholder="Enter a new task!"
-                value={newTask}
-                onChange={(e) => setNewTask(e.target.value)}
-                className={`border-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none w-full placeholder:text-cyan-400 text-gray-600 ${
-                  addButton ? "animate-opacity" : ""
-                }`}
-              />
-              <button
-                onClick={() => addTask()}
-                className={`absolute right-0 pr-4 text-cyan-400   ${
-                  addButton ? "animate-opacity " : ""
-                }`}
-              >
-                Add
-              </button>
+              <form className="w-full flex items-center">
+                <input
+                  type="text"
+                  placeholder="Enter a new task!"
+                  value={newTask}
+                  onChange={(e) => setNewTask(e.target.value)}
+                  className={`border-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none w-full placeholder:text-cyan-400 text-gray-600 ${
+                    addButton ? "animate-opacity" : ""
+                  }`}
+                />
+                <button
+                  onClick={(e) => addTask(e)}
+                  className={`absolute right-0 pr-4 text-cyan-400   ${
+                    addButton ? "animate-opacity " : ""
+                  }`}
+                >
+                  Add
+                </button>
+              </form>
             </div>
           </div>
         </div>
@@ -261,19 +265,21 @@ function App() {
             </span>
             <span className="text-xl font-bold text-cyan-300">=</span>
             <div className="relative flex">
-              <input
-                type="text"
-                value={edit.value}
-                onChange={(e) => editTask(e.target.value)}
-                placeholder="Update the task!"
-                className="border-2 ml-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold text-gray-600 outline-cyan-300"
-              />
-              <button
-                onClick={() => change()}
-                className="absolute text-xl right-4 pl-2 h-full rounded-2xl text-cyan-300 "
-              >
-                Add
-              </button>
+              <form>
+                <input
+                  type="text"
+                  value={edit.value}
+                  onChange={(e) => editTask(e.target.value)}
+                  placeholder="Update the task!"
+                  className="border-2 ml-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold text-gray-600 outline-cyan-300"
+                />
+                <button
+                  onClick={(e) => change(e)}
+                  className="absolute text-xl right-4 pl-2 h-full rounded-2xl text-cyan-300 "
+                >
+                  Add
+                </button>
+              </form>
             </div>
           </div>
         </div>
