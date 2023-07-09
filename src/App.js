@@ -10,11 +10,12 @@ import {
 } from "react-icons/ai";
 import { BsFillMoonFill, BsSun } from "react-icons/bs";
 import Login from './pages/Login';
-import { BrowserRouter as Router, Switch, Route, Redirect, Routes } from "react-router-dom";
+import toast, { Toaster } from 'react-hot-toast';
+
+// import { BrowserRouter as Router, Switch, Route, Redirect, Routes } from "react-router-dom";
+
 import ReactSwitch from "react-switch";
-
-
-export const ThemeContext= createContext(null);
+export const ThemeContext= createContext("null ");
 
 
 function App() {
@@ -24,13 +25,15 @@ function App() {
   const [edit, setEdit] = useState([]);
   const [addButton, setaddButton] = useState(false);
 
-  //darkmode
-  const [theme,setTheme]=useState("light");
-  const toggleTheme=() => {
+  /* light/dark mode */
+  const [theme, setTheme] = useState("light");
+  const toggleTheme = () => {
     setTheme((curr) =>(curr ==="light" ? "dark": "light"));
   }
 
-  //login
+  console.log(theme)
+
+  /* login */
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // const handleLogin = () => {
@@ -42,7 +45,7 @@ function App() {
   // };
 
 
-  // Date
+  /* date */
   const today = new Date();
   const dateOptions = { year: "numeric", month: "long", day: "numeric" };
   const formattedDate = today.toLocaleDateString(undefined, dateOptions);
@@ -72,7 +75,7 @@ function App() {
     setTasks(newList);
   }
 
-  /* to complete a task */
+  /* complete a task */
   function completedTasks(id) {
     const newList = tasks.map((task) =>
       task.id === id ? { ...task, completed: !task.completed } : task
@@ -88,7 +91,7 @@ function App() {
   function editTask(e) {
     setEdit({ ...edit, value: e });
   }
-  // change Todo
+  /* edit existing tasks */
   function change() {
     const changeTodo = tasks.map((task) =>
       task.id === edit.id ? { ...task, value: edit.value } : task
@@ -96,11 +99,12 @@ function App() {
     setTasks(changeTodo);
     setModal(false);
   }
-  // function deleteTodos() {
-  //   setTasks(tasks.filter((todo) => !todo.completed));
-  // }
+  /* delete completed tasks */
+  function deleteCompleted() {
+    setTasks(tasks.filter((todo) => !todo.completed));
+  }
 
-  // addbutton
+  /* add button */
   function plusButton() {
     setaddButton(true);
   }
@@ -108,16 +112,14 @@ function App() {
   return (
     //darkmode
     <ThemeContext.Provider value={{theme,toggleTheme}}>
-
-    <div className="responsive flex justify-center  items-center bg-cyan-100 min-h-screen" id={theme}>
-      <Router><Routes>
-        <Route path="/Login" element={<App/>}/>
+    <div className = {`responsive flex justify-center  items-center bg-cyan-100 min-h-screen ${theme==="dark" ? "bg-black" : "bg-cyan-100"}`}>
+      {/* <Router><Routes> */}
+        {/* <Route path="/Login" element={<App/>}/> */}
         {/* <Login/> */}
 
         {/* dark mode */}
         <div className="switch">
-        <label>{theme==="light" ? "Light Mode": "Dark Mode"}</label>
-        <ReactSwitch onChange={toggleTheme} checked={theme==="dark"}/>
+        {/* <ReactSwitch onChange={toggleTheme} checked={theme==="dark"}/> */}
         </div>
 
       <div
@@ -126,9 +128,16 @@ function App() {
         }`}
       >
         <div className=" min-w-[40%]">
-          <div className="bg-gradient-to-r from-cyan-300 to-blue-400/75 p-10 rounded-t-xl">
+          <div className="bg-gradient-to-r from-cyan-300 to-blue-400/75 p-10 rounded-t-xl flex justify-around">
             {/* Title */}
             <h1 className="text-2xl text-white">{formattedDate}</h1>
+            <button
+                onClick={() => deleteCompleted()}
+                className="text-l text-white "
+              >
+                Delete Completed Tasks
+              </button>
+            {/*<label>{theme==="light" ? "Light Mode": "Dark Mode"}</label>*/}
           </div>
 
           {/* lists of the entered tasks */}
@@ -251,22 +260,13 @@ function App() {
           </div>
         </div>
       </div>
-      </Routes></Router>
+      {/* </Routes></Router> */}
     </div>
-    </ThemeContext.Provider>
+    <div>
+      <ReactSwitch onChange = {toggleTheme} checked={theme==="dark" }/>
+    </div>
+  </ThemeContext.Provider>
   );
 }
 
 export default App;
-
-// <div >
-
-// </div>
-
-// {
-//    <button onClick={() => completedTasks(task.id)}>
-//                       <AiOutlineCheck />
-//                     </button>
-
-//                     <button onClick={deleteTodos}>delete completed</button>
-// }
