@@ -19,17 +19,18 @@ export const ThemeContext = createContext("null ");
 
 function App() {
   const [newTask, setNewTask] = useState("");
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState([
+    { id: 1, value: "utku", completed: false, time: 12.52 },
+  ]);
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState([]);
   const [addButton, setaddButton] = useState(false);
 
   /* light/dark mode */
-  const [theme, setTheme] = useState(false);
+  const [theme, setTheme] = useState(true);
   const toggleTheme = () => {
     setTheme(!theme);
   };
-
 
   /* login */
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -135,25 +136,26 @@ function App() {
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <div
         className={`responsive flex justify-center  items-center min-h-screen ${
-          theme ? "bg-black" : "bg-white"
+          theme ? "bg-slate-900" : "bg-cyan-100"
         }`}
       >
         <Toaster />
         {/* <Router><Routes> */}
         {/* <Route path="/Login" element={<App/>}/> */}
         {/* <Login/> */}
-
-        {/* dark mode */}
-        <div>
-          {/* <ReactSwitch onChange={toggleTheme} checked={theme==="dark"}/> */}
-        </div>
         <div
           className={`w-screen  flex justify-center items-center ${
             modal ? "blur-sm" : ""
           }`}
         >
           <div className=" min-w-[40%]">
-            <div className="bg-gradient-to-r from-cyan-300 to-blue-400/75 p-10 rounded-t-xl flex justify-around relative">
+            <div
+              className={`bg-gradient-to-r p-10 rounded-t-xl flex justify-around relative ${
+                theme
+                  ? "from-slate-800 to-slate-600/40"
+                  : "from-cyan-300 to-blue-400/75"
+              }`}
+            >
               {/* Title */}
               <h1 className="text-2xl text-white">{formattedDate}</h1>
               <button
@@ -162,8 +164,12 @@ function App() {
               >
                 Clear Completed
               </button>
-              <button onClick={toggleTheme} className="absolute top-0 right-0 p-3 text-xl" >{theme ? <BsSun/> : <BsFillMoonFill className="text-white"/>}</button>
-
+              <button
+                onClick={toggleTheme}
+                className="absolute top-0 right-0 p-3 text-xl text-white"
+              >
+                {theme ? <BsSun /> : <BsFillMoonFill />}
+              </button>
             </div>
 
             {/* lists of the entered tasks */}
@@ -173,7 +179,11 @@ function App() {
                 return (
                   <div
                     key={task.id}
-                    className=" flex relative hover:scale-110 hover:z-10 last:rounded-b-xl pl-10 border-l-8 border-transparent hover:border-cyan-300  shadow-xl shadow-cyan-200 items-center mb-1 justify-between  bg-white py-5 px-10"
+                    className={` flex relative hover:scale-110 hover:z-10 last:rounded-b-xl pl-10 border-l-8 border-transparent  items-center mb-1 justify-between shadow-xl   py-5 px-10 ${
+                      theme
+                        ? "hover:border-slate-600   shadow-slate-800 bg-slate-700"
+                        : "hover:border-cyan-300  shadow-cyan-200 bg-white"
+                    }`}
                   >
                     <div>
                       <div className="flex flex-col ">
@@ -183,7 +193,9 @@ function App() {
                         <h2
                           className={`${
                             task.completed ? "line-through text-gray-300" : ""
-                          }   text-xl text-gray-600`}
+                          }  ${
+                            theme ? "text-white" : ""
+                          } text-xl text-gray-600`}
                         >
                           {task.value}
                         </h2>
@@ -192,7 +204,9 @@ function App() {
                     <div className="flex items-center group ">
                       <button
                         onClick={() => modalBtn(task)}
-                        className="absolute text-lg p-3 border-2 border-transparent bg-white shadow-lg rounded-full right-28 hidden group-hover:!flex hover:scale-110 "
+                        className={`absolute text-lg p-3 border-2 border-transparent bg-white shadow-lg rounded-full right-28 hidden group-hover:!flex hover:scale-110 ${
+                          theme ? "bg-slate-600" : "bg-white"
+                        }`}
                       >
                         <AiOutlineEdit className="text-cyan-400" />
                       </button>
@@ -200,13 +214,17 @@ function App() {
 
                       <button
                         onClick={() => completedTasks(task.id)}
-                        className="absolute text-lg p-3 border-2 border-transparent bg-white shadow-lg rounded-full -top-8  hidden group-hover:!flex  hover:scale-110 "
+                        className={`absolute text-lg p-3 border-2 border-transparent bg-white shadow-lg rounded-full -top-8  hidden group-hover:!flex  hover:scale-110  ${
+                          theme ? "bg-slate-600" : "bg-white"
+                        }`}
                       >
                         <AiOutlineCheck className="text-cyan-400" />
                       </button>
                       <button
                         onClick={() => deleteTask(task.id)}
-                        className="absolute text-lg p-3 border-2 border-transparent bg-white shadow-lg rounded-full -bottom-8 hidden group-hover:!flex z-50 hover:scale-110"
+                        className={`absolute text-lg p-3 border-2 border-transparent bg-white shadow-lg rounded-full -bottom-8 hidden group-hover:!flex z-50 hover:scale-110  ${
+                          theme ? "bg-slate-600" : "bg-white"
+                        }`}
                       >
                         <AiOutlineDelete className="text-cyan-400" />
                       </button>
@@ -223,9 +241,9 @@ function App() {
             </div>
             <div className="flex justify-center mt-3 flex-col items-center">
               <button
-                className={`text-lg border-2 rounded-full border-transparent shadow-lg  p-4 bg-white ${
+                className={`text-lg border-2 rounded-full border-transparent shadow-lg  p-4 ${
                   addButton ? "!hidden" : ""
-                }`}
+                } ${theme ? "bg-slate-700" : "bg-white"}`}
                 onClick={plusButton}
               >
                 <AiOutlinePlus className="text-cyan-400" />
@@ -241,15 +259,15 @@ function App() {
                     placeholder="Enter a new task!"
                     value={newTask}
                     onChange={(e) => setNewTask(e.target.value)}
-                    className={`border-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none w-full placeholder:text-cyan-400 text-gray-600 ${
+                    className={`border-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none w-full ${
                       addButton ? "animate-opacity" : ""
-                    }`}
+                    } ${theme ? "bg-slate-700 text-white" : ""}`}
                   />
                   <button
                     onClick={(e) => addTask(e)}
-                    className={`absolute right-0 pr-4 text-cyan-400   ${
+                    className={`absolute right-0 pr-4   ${
                       addButton ? "animate-opacity " : ""
-                    }`}
+                    } ${theme ? "text-slate-400" : "text-cyan-400"}`}
                   >
                     Add
                   </button>
@@ -259,9 +277,15 @@ function App() {
           </div>
         </div>
         <div className={`absolute ${modal ? "block" : "hidden"} `}>
-          <div className="border-2 border-transparent shadow-lg px-20 py-10 bg-white relative rounded-2xl">
+          <div
+            className={`border-2 border-transparent shadow-lg px-20 py-10  relative rounded-2xl ${
+              theme ? "bg-slate-800 " : "bg-white"
+            }`}
+          >
             <AiOutlineClose
-              className="absolute top-2 right-2 text-2xl cursor-pointer"
+              className={`absolute top-2 right-2 text-2xl cursor-pointer ${
+                theme ? "text-white" : ""
+              } `}
               onClick={() => setModal(false)}
             />
             <h2 className="absolute top-2 left-2 text-xl font-bold text-cyan-300">
@@ -279,7 +303,11 @@ function App() {
                     value={edit.value}
                     onChange={(e) => editTask(e.target.value)}
                     placeholder="Update the task!"
-                    className="border-2 ml-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold text-gray-600 outline-cyan-300"
+                    className={`border-2 ml-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold text-gray-600  ${
+                      theme
+                        ? "bg-slate-700 text-white outline-none"
+                        : "bg-white outline-cyan-300"
+                    }`}
                   />
                   <button
                     onClick={(e) => change(e)}
@@ -292,11 +320,9 @@ function App() {
             </div>
           </div>
         </div>
-        {/* </Routes></Router> */}
       </div>
       <div>
         {/* <ReactSwitch onChange={toggleTheme} checked={theme === false} /> */}
-       
       </div>
     </ThemeContext.Provider>
   );
