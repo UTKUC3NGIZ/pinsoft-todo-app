@@ -167,11 +167,13 @@ function App() {
               return (
                 <div
                   key={task.id}
-                  className=" flex relative last:rounded-b-xl pl-10 border-l-8 border-transparent hover:border-cyan-300  shadow-xl shadow-cyan-200 items-center mb-1 justify-between  bg-white py-5 px-10"
+                  className=" flex relative hover:scale-110 hover:z-10 last:rounded-b-xl pl-10 border-l-8 border-transparent hover:border-cyan-300  shadow-xl shadow-cyan-200 items-center mb-1 justify-between  bg-white py-5 px-10"
                 >
                   <div>
                     <div className="flex flex-col ">
-                      <span className="text-gray-400 text-xl">{task.time}</span>
+                      <span className="text-gray-400 text-xl ">
+                        {task.time}
+                      </span>
                       <h2
                         className={`${
                           task.completed ? "line-through text-gray-300" : ""
