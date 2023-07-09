@@ -9,6 +9,7 @@ import {
   AiOutlinePlus,
 } from "react-icons/ai";
 import { BsFillMoonFill, BsSun } from "react-icons/bs";
+<<<<<<< HEAD
 import Login from './pages/Login';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -17,6 +18,15 @@ import toast, { Toaster } from 'react-hot-toast';
 import ReactSwitch from "react-switch";
 export const ThemeContext= createContext("null ");
 
+=======
+import Login from "./pages/Login";
+import toast, { Toaster } from "react-hot-toast";
+
+// import { BrowserRouter as Router, Switch, Route, Redirect, Routes } from "react-router-dom";
+// import ReactSwitch from "react-switch";
+
+export const ThemeContext = createContext(null);
+>>>>>>> 8ee8a7ec05428579adb43252fc4ae2b64838832d
 
 function App() {
   const [newTask, setNewTask] = useState("");
@@ -25,11 +35,19 @@ function App() {
   const [edit, setEdit] = useState([]);
   const [addButton, setaddButton] = useState(false);
 
+<<<<<<< HEAD
   /* light/dark mode */
   const [theme, setTheme] = useState("light");
   const toggleTheme = () => {
     setTheme((curr) =>(curr ==="light" ? "dark": "light"));
   }
+=======
+  //darkmode
+  const [theme, setTheme] = useState("light");
+  const toggleTheme = () => {
+    setTheme((curr) => (curr === "light" ? "dark" : "light"));
+  };
+>>>>>>> 8ee8a7ec05428579adb43252fc4ae2b64838832d
 
   console.log(theme)
 
@@ -44,35 +62,49 @@ function App() {
   //   setIsLoggedIn(false);
   // };
 
+<<<<<<< HEAD
 
   /* date */
+=======
+  // Date
+>>>>>>> 8ee8a7ec05428579adb43252fc4ae2b64838832d
   const today = new Date();
   const dateOptions = { year: "numeric", month: "long", day: "numeric" };
   const formattedDate = today.toLocaleDateString(undefined, dateOptions);
-  
+
   /* add task function*/
-  function addTask() {
-    const timeOptions = { hour: '2-digit', minute: '2-digit' };
-    const todoAddDate = today.toLocaleTimeString([], timeOptions);
-  
-    const taskAdded = {
-      id: Math.floor(Math.random() * 2000),
-      value: newTask,
-      completed: false,
-      time: todoAddDate,
-    };
-  
-    setTasks((previousTasks) => [...previousTasks, taskAdded]);
-    setNewTask("");
-    setaddButton(false);
+  function addTask(e) {
+    e.preventDefault();
+    if (newTask.length !== 0) {
+      const timeOptions = { hour: "2-digit", minute: "2-digit" };
+      const todoAddDate = today.toLocaleTimeString([], timeOptions);
+
+      const taskAdded = {
+        id: Math.floor(Math.random() * 2000),
+        value: newTask,
+        completed: false,
+        time: todoAddDate,
+      };
+
+      setTasks((previousTasks) => [...previousTasks, taskAdded]);
+      setNewTask("");
+      setaddButton(false);
+      toast.success("Task Added!");
+    } else {
+      toast("don't be idle!", {
+        icon: "😡",
+      });
+    }
   }
 
-  console.log(tasks);
   /* delete task function, parameter: id */
   function deleteTask(id) {
     /* we add the new array all the tasks whose id's are different*/
     const newList = tasks.filter((task) => task.id !== id);
     setTasks(newList);
+    toast("Task Deleted!", {
+      icon: "🗑️",
+    });
   }
 
   /* complete a task */
@@ -81,6 +113,15 @@ function App() {
       task.id === id ? { ...task, completed: !task.completed } : task
     );
     setTasks(newList);
+    if (newList[0].completed !== false) {
+      toast("it's over finally!", {
+        icon: "🏌️",
+      });
+    } else {
+      toast("turn back o7!", {
+        icon: "🧑‍💼",
+      });
+    }
   }
   /* Modal */
   function modalBtn(task) {
@@ -91,13 +132,23 @@ function App() {
   function editTask(e) {
     setEdit({ ...edit, value: e });
   }
+<<<<<<< HEAD
   /* edit existing tasks */
   function change() {
+=======
+  // change Todo
+  function change(e) {
+    e.preventDefault();
+>>>>>>> 8ee8a7ec05428579adb43252fc4ae2b64838832d
     const changeTodo = tasks.map((task) =>
       task.id === edit.id ? { ...task, value: edit.value } : task
     );
     setTasks(changeTodo);
     setModal(false);
+
+    toast("Task Updated!", {
+      icon: "✏️",
+    });
   }
   /* delete completed tasks */
   function deleteCompleted() {
@@ -111,6 +162,7 @@ function App() {
 
   return (
     //darkmode
+<<<<<<< HEAD
     <ThemeContext.Provider value={{theme,toggleTheme}}>
     <div className = {`responsive flex justify-center  items-center bg-cyan-100 min-h-screen ${theme==="dark" ? "bg-black" : "bg-cyan-100"}`}>
       {/* <Router><Routes> */}
@@ -121,6 +173,27 @@ function App() {
         <div className="switch">
         {/* <ReactSwitch onChange={toggleTheme} checked={theme==="dark"}/> */}
         </div>
+=======
+    // <ThemeContext.Provider value={{theme,toggleTheme}}>
+
+    <div
+      className="responsive flex justify-center  items-center bg-cyan-100 min-h-screen"
+      id={theme}
+    >
+      <Toaster />
+      {/* <button onClick={updTaskWarning}>Make me a toast</button> */}
+
+      {/* <Router><Routes> */}
+      {/* <Route path="/Login" element={<App/>}/> */}
+      {/* <Login/> */}
+
+      {/* dark mode */}
+      <div className="switch">
+        <label>{theme === "light" ? "Light Mode" : "Dark Mode"}</label>
+        {/* <ReactSwitch onChange={toggleTheme} checked={theme==="dark"}/> */}
+      </div>
+
+>>>>>>> 8ee8a7ec05428579adb43252fc4ae2b64838832d
       <div
         className={`w-screen  flex justify-center items-center ${
           modal ? "blur-sm" : ""
@@ -146,11 +219,13 @@ function App() {
               return (
                 <div
                   key={task.id}
-                  className=" flex relative last:rounded-b-xl pl-10 border-l-8 border-transparent hover:border-cyan-300  shadow-xl shadow-cyan-200 items-center mb-1 justify-between  bg-white py-5 px-10"
+                  className=" flex relative hover:scale-110 hover:z-10 last:rounded-b-xl pl-10 border-l-8 border-transparent hover:border-cyan-300  shadow-xl shadow-cyan-200 items-center mb-1 justify-between  bg-white py-5 px-10"
                 >
                   <div>
                     <div className="flex flex-col ">
-                      <span className="text-gray-400 text-xl">{task.time}</span>
+                      <span className="text-gray-400 text-xl ">
+                        {task.time}
+                      </span>
                       <h2
                         className={`${
                           task.completed ? "line-through text-gray-300" : ""
@@ -206,23 +281,25 @@ function App() {
                 addButton ? "animate-wiggle !flex !opacity-100" : ""
               } `}
             >
-              <input
-                type="text"
-                placeholder="Enter a new task!"
-                value={newTask}
-                onChange={(e) => setNewTask(e.target.value)}
-                className={`border-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none w-full placeholder:text-cyan-400 text-gray-600 ${
-                  addButton ? "animate-opacity" : ""
-                }`}
-              />
-              <button
-                onClick={() => addTask()}
-                className={`absolute right-0 pr-4 text-cyan-400   ${
-                  addButton ? "animate-opacity " : ""
-                }`}
-              >
-                Add
-              </button>
+              <form className="w-full flex items-center">
+                <input
+                  type="text"
+                  placeholder="Enter a new task!"
+                  value={newTask}
+                  onChange={(e) => setNewTask(e.target.value)}
+                  className={`border-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none w-full placeholder:text-cyan-400 text-gray-600 ${
+                    addButton ? "animate-opacity" : ""
+                  }`}
+                />
+                <button
+                  onClick={(e) => addTask(e)}
+                  className={`absolute right-0 pr-4 text-cyan-400   ${
+                    addButton ? "animate-opacity " : ""
+                  }`}
+                >
+                  Add
+                </button>
+              </form>
             </div>
           </div>
         </div>
@@ -242,29 +319,35 @@ function App() {
             </span>
             <span className="text-xl font-bold text-cyan-300">=</span>
             <div className="relative flex">
-              <input
-                type="text"
-                value={edit.value}
-                onChange={(e) => editTask(e.target.value)}
-                placeholder="Update the task!"
-                className="border-2 ml-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold text-gray-600 outline-cyan-300"
-              />
-              <button
-                onClick={() => change()}
-                className="absolute text-xl right-4 pl-2 h-full rounded-2xl text-cyan-300 "
-              >
-                Add
-              </button>
+              <form>
+                <input
+                  type="text"
+                  value={edit.value}
+                  onChange={(e) => editTask(e.target.value)}
+                  placeholder="Update the task!"
+                  className="border-2 ml-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold text-gray-600 outline-cyan-300"
+                />
+                <button
+                  onClick={(e) => change(e)}
+                  className="absolute text-xl right-4 pl-2 h-full rounded-2xl text-cyan-300 "
+                >
+                  Add
+                </button>
+              </form>
             </div>
           </div>
         </div>
       </div>
       {/* </Routes></Router> */}
     </div>
+<<<<<<< HEAD
     <div>
       <ReactSwitch onChange = {toggleTheme} checked={theme==="dark" }/>
     </div>
   </ThemeContext.Provider>
+=======
+    // </ThemeContext.Provider>
+>>>>>>> 8ee8a7ec05428579adb43252fc4ae2b64838832d
   );
 }
 
