@@ -17,8 +17,7 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth();
+
 
 export const register = async (email, password) => {
   try {
@@ -50,4 +49,5 @@ export const logout = async () => {
     toast.error(error.message);
   }
 };
-export default app;
+export const app = initializeApp(firebaseConfig);
+export const auth = getAuth();

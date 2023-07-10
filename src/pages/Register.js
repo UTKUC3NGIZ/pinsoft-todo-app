@@ -3,13 +3,16 @@ import React, { useState } from "react";
 import { register } from "../firebase";
 import { Link } from "react-router-dom";
 
-function Login(props) {
+function Register(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
     const user = await register(email, password);
-    console.log(user);
+ 
+    if (user) {
+      window.location = "/";
+    }
   };
 
   return (
@@ -46,9 +49,11 @@ function Login(props) {
         >
           Kayıt ol
         </button>
-        <Link to="/login" className="text-center">Giriş Yap</Link>
+        <Link to="/login"  className={` text-center ${
+            props.theme ? "text-slate-400" : "text-cyan-400"
+          }`}>Giriş Yap</Link>
       </form>
     </div>
   );
 }
-export default Login;
+export default Register;
