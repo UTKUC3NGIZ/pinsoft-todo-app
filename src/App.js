@@ -131,6 +131,10 @@ function App() {
     setaddButton(true);
   }
 
+  // items left
+
+  const items = tasks.filter((task) => task.completed === false);
+
   return (
     //darkmode
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
@@ -150,7 +154,7 @@ function App() {
         >
           <div className=" min-w-[40%] w-3/4 md:w-auto">
             <div
-              className={`bg-gradient-to-r p-10 rounded-t-xl flex justify-between lg:flex-row flex-col items-start lg:items-center relative ${
+              className={`bg-gradient-to-r p-12 rounded-t-xl flex justify-between lg:flex-row flex-col items-start lg:items-center relative ${
                 theme
                   ? "from-slate-800 to-slate-600/40"
                   : "from-cyan-300 to-blue-400/75"
@@ -170,6 +174,9 @@ function App() {
               >
                 {theme ? <BsSun /> : <BsFillMoonFill />}
               </button>
+              <span className="absolute bottom-0 right-0 p-3 text-white">
+                {items.length} left items
+              </span>
             </div>
 
             {/* lists of the entered tasks */}
@@ -276,7 +283,9 @@ function App() {
             </div>
           </div>
         </div>
-        <div className={`absolute sm:w-auto w-full ${modal ? "block" : "hidden"} `}>
+        <div
+          className={`absolute sm:w-auto w-full ${modal ? "block" : "hidden"} `}
+        >
           <div
             className={`border-2 border-transparent shadow-lg lg:px-20 lg:py-10 px-10 py-5 relative rounded-2xl ${
               theme ? "bg-slate-800 " : "bg-white"
