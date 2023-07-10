@@ -7,12 +7,11 @@ import {
   AiOutlinePlus,
 } from "react-icons/ai";
 import { BsFillMoonFill, BsSun } from "react-icons/bs";
-import {toast} from "react-hot-toast";
-
+import { toast } from "react-hot-toast";
 
 export const ThemeContext = createContext("null ");
 
-function App() {
+function App(props) {
   const [newTask, setNewTask] = useState("");
   const [tasks, setTasks] = useState([]);
   const [modal, setModal] = useState(false);
@@ -20,12 +19,9 @@ function App() {
   const [addButton, setaddButton] = useState(false);
 
   /* light/dark mode */
-  const [theme, setTheme] = useState(true);
   const toggleTheme = () => {
-    setTheme(!theme);
+    props.setTheme(!props.theme);
   };
-
-
 
   /* date */
   const today = new Date();
@@ -51,16 +47,16 @@ function App() {
       setaddButton(false);
       toast.success("Task Added!", {
         style: {
-          background: theme ? "#2e4155" : "#fff",
-          color: theme ? "#fff" : "#00ebfb",
+          background: props.theme ? "#2e4155" : "#fff",
+          color: props.theme ? "#fff" : "#00ebfb",
         },
       });
     } else {
       toast("don't be idle!", {
         icon: "😡",
         style: {
-          background: theme ? "#2e4155" : "#fff",
-          color: theme ? "#fff" : "#00ebfb",
+          background: props.theme ? "#2e4155" : "#fff",
+          color: props.theme ? "#fff" : "#00ebfb",
         },
       });
     }
@@ -73,8 +69,8 @@ function App() {
     toast("Task Deleted!", {
       icon: "🗑️",
       style: {
-        background: theme ? "#2e4155" : "#fff",
-        color: theme ? "#fff" : "#00ebfb",
+        background: props.theme ? "#2e4155" : "#fff",
+        color: props.theme ? "#fff" : "#00ebfb",
       },
     });
   }
@@ -88,16 +84,16 @@ function App() {
       toast("it's over finally!", {
         icon: "🏌️",
         style: {
-          background: theme ? "#2e4155" : "#fff",
-          color: theme ? "#fff" : "#00ebfb",
+          background: props.theme ? "#2e4155" : "#fff",
+          color: props.theme ? "#fff" : "#00ebfb",
         },
       });
     } else {
       toast("turn back o7!", {
         icon: "🧑‍💼",
         style: {
-          background: theme ? "#2e4155" : "#fff",
-          color: theme ? "#fff" : "#00ebfb",
+          background: props.theme ? "#2e4155" : "#fff",
+          color: props.theme ? "#fff" : "#00ebfb",
         },
       });
     }
@@ -123,8 +119,8 @@ function App() {
     toast("Task Updated!", {
       icon: "✏️",
       style: {
-        background: theme ? "#2e4155" : "#fff",
-        color: theme ? "#fff" : "#00ebfb",
+        background: props.theme ? "#2e4155" : "#fff",
+        color: props.theme ? "#fff" : "#00ebfb",
       },
     });
   }
@@ -141,13 +137,12 @@ function App() {
 
   return (
     // darkmode
-    <>
+
     <div
       className={`responsive flex justify-center  items-center min-h-screen ${
-        theme ? "bg-slate-900" : "bg-cyan-100"
+        props.theme ? "bg-slate-900" : "bg-cyan-100"
       }`}
     >
-    
       {/* <Router><Routes> */}
       {/* <Route path="/Login" element={<App/>}/> */}
       {/* <Login/> */}
@@ -159,7 +154,7 @@ function App() {
         <div className=" min-w-[40%] w-3/4 md:w-auto">
           <div
             className={`bg-gradient-to-r p-12 rounded-t-xl flex justify-between lg:flex-row flex-col items-start lg:items-center relative ${
-              theme
+              props.theme
                 ? "from-slate-800 to-slate-600/40"
                 : "from-cyan-300 to-blue-400/75"
             }`}
@@ -176,7 +171,7 @@ function App() {
               onClick={toggleTheme}
               className="absolute top-0 right-0 p-3 text-xl text-white"
             >
-              {theme ? <BsSun /> : <BsFillMoonFill />}
+              {props.theme ? <BsSun /> : <BsFillMoonFill />}
             </button>
             <span className="absolute bottom-0 right-0 p-3 text-white">
               {items.length} left items
@@ -191,7 +186,7 @@ function App() {
                 <div
                   key={task.id}
                   className={` flex relative hover:scale-110 hover:z-10 last:rounded-b-xl lg:pl-10 border-l-8 border-transparent  items-center mb-1 justify-between shadow-xl   py-5 lg:px-10 px-5  ${
-                    theme
+                    props.theme
                       ? "hover:border-slate-600   shadow-slate-800 bg-slate-700"
                       : "hover:border-cyan-300  shadow-cyan-200 bg-white"
                   }`}
@@ -204,9 +199,7 @@ function App() {
                       <h2
                         className={`${
                           task.completed ? "line-through text-gray-300" : ""
-                        }  ${
-                          theme ? "text-white" : ""
-                        } text-xl text-gray-600`}
+                        }  ${props.theme ? "text-white" : ""} text-xl text-gray-600`}
                       >
                         {task.value}
                       </h2>
@@ -216,7 +209,7 @@ function App() {
                     <button
                       onClick={() => modalBtn(task)}
                       className={`absolute text-lg p-3 border-2 border-transparent  shadow-lg rounded-full right-28 hidden group-hover:!flex hover:scale-110 ${
-                        theme ? "bg-slate-600" : "bg-white"
+                        props.theme ? "bg-slate-600" : "bg-white"
                       }`}
                     >
                       <AiOutlineEdit className="text-cyan-400" />
@@ -226,7 +219,7 @@ function App() {
                     <button
                       onClick={() => completedTasks(task.id)}
                       className={`absolute text-lg p-3 border-2 border-transparent shadow-lg rounded-full -top-8  hidden group-hover:!flex  hover:scale-110  ${
-                        theme ? "bg-slate-600" : "bg-white"
+                        props.theme ? "bg-slate-600" : "bg-white"
                       }`}
                     >
                       <AiOutlineCheck className="text-cyan-400" />
@@ -234,7 +227,7 @@ function App() {
                     <button
                       onClick={() => deleteTask(task.id)}
                       className={`absolute text-lg p-3 border-2 border-transparent  shadow-lg rounded-full -bottom-8 hidden group-hover:!flex z-50 hover:scale-110  ${
-                        theme ? "bg-slate-600" : "bg-white"
+                        props.theme ? "bg-slate-600" : "bg-white"
                       }`}
                     >
                       <AiOutlineDelete className="text-cyan-400" />
@@ -254,7 +247,7 @@ function App() {
             <button
               className={`text-lg border-2 rounded-full border-transparent shadow-lg  p-4 ${
                 addButton ? "!hidden" : ""
-              } ${theme ? "bg-slate-700" : "bg-white"}`}
+              } ${props.theme ? "bg-slate-700" : "bg-white"}`}
               onClick={plusButton}
             >
               <AiOutlinePlus className="text-cyan-400" />
@@ -272,13 +265,13 @@ function App() {
                   onChange={(e) => setNewTask(e.target.value)}
                   className={`border-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none w-full ${
                     addButton ? "animate-opacity" : ""
-                  } ${theme ? "bg-slate-700 text-white" : ""}`}
+                  } ${props.theme ? "bg-slate-700 text-white" : ""}`}
                 />
                 <button
                   onClick={(e) => addTask(e)}
                   className={`absolute right-0 pr-4   ${
                     addButton ? "animate-opacity " : ""
-                  } ${theme ? "text-slate-400" : "text-cyan-400"}`}
+                  } ${props.theme ? "text-slate-400" : "text-cyan-400"}`}
                 >
                   Add
                 </button>
@@ -292,12 +285,12 @@ function App() {
       >
         <div
           className={`border-2 border-transparent shadow-lg lg:px-20 lg:py-10 px-10 py-5 relative rounded-2xl ${
-            theme ? "bg-slate-800 " : "bg-white"
+            props.theme ? "bg-slate-800 " : "bg-white"
           }`}
         >
           <AiOutlineClose
             className={`absolute top-2 right-2 text-2xl cursor-pointer ${
-              theme ? "text-white" : ""
+              props.theme ? "text-white" : ""
             } `}
             onClick={() => setModal(false)}
           />
@@ -317,7 +310,7 @@ function App() {
                   onChange={(e) => editTask(e.target.value)}
                   placeholder="Update the task!"
                   className={`border-2 ml-2 rounded-2xl border-transparent shadow-lg py-2 sm:px-4 pl-2 pr-24 text-xl font-bold text-gray-600 placeholder:w-2 ${
-                    theme
+                    props.theme
                       ? "bg-slate-700 text-white outline-none"
                       : "bg-white outline-cyan-300"
                   }`}
@@ -334,8 +327,6 @@ function App() {
         </div>
       </div>
     </div>
-
-    </>
   );
 }
 

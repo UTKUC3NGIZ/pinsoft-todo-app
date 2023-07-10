@@ -2,18 +2,21 @@ import React, { useState } from "react";
 
 import { register } from "../firebase";
 
-function Login() {
+function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = await register(email,password)
-    console.log(user)
+    const user = await register(email, password);
+    console.log(user);
   };
 
   return (
-    <div>
+    <div
+      className={`responsive flex justify-center  items-center min-h-screen ${
+        props.theme ? "bg-slate-900" : "bg-cyan-100"
+      }`}
+    >
       <form onSubmit={handleSubmit}>
         <input
           type="text"
