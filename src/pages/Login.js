@@ -1,54 +1,37 @@
 import React, { useState } from "react";
 
+import { register } from "../firebase";
 
-//login
-// function Login(){
-//   return(
-//     <div className="main">
-//       <p className="sign" align="center">
-//         Sign in
-//       </p>
-//       <form  className="form1">
-//         <input className="username" type="text" placeholder="Username"/>
-//         <input className="password" type="password" placeholder="Password"/>
-//         <a className="submit" align="center">
-//           Sign in
-//         </a>
-//         <p className="forgot" align="center">
-//           <a href="#">Forgot Password</a>
-//         </p>
-//       </form>
-//     </div>
-//   )
-// }
-
- 
 function Login() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const user = await register(email,password)
+    console.log(user)
+  };
 
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      // Login işlemi yapılacak
-    };
-
-    return (
+  return (
+    <div>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Kullanıcı Adı"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          placeholder="E-posta"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
-          placeholder="Şifre"
+          placeholder="parola"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Giriş Yap</button>
+        <button disabled={!email || !password} type="submit">
+          Kayıt ol
+        </button>
       </form>
-    );
-  }
-   export default Login;
+    </div>
+  );
+}
+export default Login;
