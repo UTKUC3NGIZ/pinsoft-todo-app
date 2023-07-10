@@ -7,7 +7,7 @@ import { Routes, Route } from "react-router";
 
 function App() {
 
-  const [theme, setTheme] = useState(true);
+  const [theme, setTheme] = useState(false);
 
   return (
     <>
