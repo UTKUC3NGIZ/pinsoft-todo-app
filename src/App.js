@@ -12,9 +12,9 @@ import { BsFillMoonFill, BsSun } from "react-icons/bs";
 import Login from "./pages/Login";
 import toast, { Toaster } from "react-hot-toast";
 
-// import { BrowserRouter as Router, Switch, Route, Redirect, Routes } from "react-router-dom";
+ import { BrowserRouter as Router, Switch, Route, Redirect, Routes } from "react-router-dom";
 
-// import ReactSwitch from "react-switch";
+ import ReactSwitch from "react-switch";
 export const ThemeContext = createContext("null ");
 
 function App() {
@@ -33,15 +33,16 @@ function App() {
   };
 
   /* login */
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
-  // const handleLogin = () => {
-  //   setIsLoggedIn(true);
-  // };
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
 
-  // const handleLogout = () => {
-  //   setIsLoggedIn(false);
-  // };
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
+
 
   /* date */
   const today = new Date();
@@ -168,10 +169,19 @@ function App() {
           theme ? "bg-slate-900" : "bg-cyan-100"
         }`}
       >
+        <Login/>
+     
         <Toaster />
-        {/* <Router><Routes> */}
-        {/* <Route path="/Login" element={<App/>}/> */}
-        {/* <Login/> */}
+         <Router>
+          <Switch>
+            <Routes> 
+            <Route path="/login">
+          {isLoggedIn ? <Redirect to="/" /> : <Login onLogin={handleLogin} />}
+        </Route>
+        <Route path="/">
+          {isLoggedIn ? <HomePage /> : <Redirect to="/login" />}
+        </Route>
+         
         <div
           className={`w-screen  flex justify-center items-center ${
             modal ? "blur-sm" : ""
@@ -354,12 +364,21 @@ function App() {
             </div>
           </div>
         </div>
-      </div>
+        <Route/>
+    </Switch>
+    <Router/>
+        </div>
+     
       <div>
         {/* <ReactSwitch onChange={toggleTheme} checked={theme === false} /> */}
       </div>
+      
     </ThemeContext.Provider>
+    
+    
+
   );
 }
+
 
 export default App;
