@@ -65,10 +65,19 @@ function App() {
       setTasks((previousTasks) => [...previousTasks, taskAdded]);
       setNewTask("");
       setaddButton(false);
-      toast.success("Task Added!");
+      toast.success("Task Added!", {
+        style: {
+          background: theme ? "#2e4155" : "#fff",
+          color: theme ? "#fff" : "#00ebfb",
+        },
+      });
     } else {
       toast("don't be idle!", {
         icon: "😡",
+        style: {
+          background: theme ? "#2e4155" : "#fff",
+          color: theme ? "#fff" : "#00ebfb",
+        },
       });
     }
   }
@@ -80,6 +89,10 @@ function App() {
     setTasks(newList);
     toast("Task Deleted!", {
       icon: "🗑️",
+      style: {
+        background: theme ? "#2e4155" : "#fff",
+        color: theme ? "#fff" : "#00ebfb",
+      },
     });
   }
 
@@ -92,10 +105,18 @@ function App() {
     if (newList[0].completed !== false) {
       toast("it's over finally!", {
         icon: "🏌️",
+        style: {
+          background: theme ? "#2e4155" : "#fff",
+          color: theme ? "#fff" : "#00ebfb",
+        },
       });
     } else {
       toast("turn back o7!", {
         icon: "🧑‍💼",
+        style: {
+          background: theme ? "#2e4155" : "#fff",
+          color: theme ? "#fff" : "#00ebfb",
+        },
       });
     }
   }
@@ -119,6 +140,10 @@ function App() {
 
     toast("Task Updated!", {
       icon: "✏️",
+      style: {
+        background: theme ? "#2e4155" : "#fff",
+        color: theme ? "#fff" : "#00ebfb",
+      },
     });
   }
   /* delete completed tasks */
