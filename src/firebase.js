@@ -55,5 +55,8 @@ export const db = getFirestore(app)
 export const addTodo = async data => {
 await addDoc(collection(db,"todos"),data)
 }
+export const userData = async data => {
+await addDoc(collection(db,"users"),data)
+}
 
 export const auth = getAuth();

@@ -24,17 +24,25 @@ function App() {
       }
     });
   }, []);
+
   return (
     <>
       <Toaster position="top-right" />
       <Routes>
         <Route
           path=""
-          element={<Home theme={theme} setTheme={setTheme} users={users} loggedIn={loggedIn} />}
+          element={
+            <Home
+              theme={theme}
+              setTheme={setTheme}
+              users={users}
+              loggedIn={loggedIn}
+            />
+          }
         />
         <Route
           path="/register"
-          element={<Register theme={theme} setTheme={setTheme} />}
+          element={<Register theme={theme} setTheme={setTheme} users={users}/>}
         />
         <Route
           path="/login"

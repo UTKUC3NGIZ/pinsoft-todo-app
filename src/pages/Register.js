@@ -1,17 +1,26 @@
 import React, { useState } from "react";
-
+import { userData } from "../firebase";
 import { register } from "../firebase";
 import { Link } from "react-router-dom";
 
 function Register(props) {
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = await register(email, password);
- 
-    if (user) {
+    try {
+      const user = await register(email, password);
+      await userData({
+        uid: user.uid,
+        todo: [],
+        theme: false,
+        username: username,
+        img: "",
+      });
       window.location = "/";
+    } catch (error) {
+      console.error('Error:', error);
     }
   };
 
@@ -27,6 +36,15 @@ function Register(props) {
           placeholder="E-posta"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          className={`border-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none w-full  ${
+            props.theme ? "bg-slate-700 text-white" : ""
+          }`}
+        />
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           className={`border-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none w-full  ${
             props.theme ? "bg-slate-700 text-white" : ""
           }`}
@@ -49,9 +67,14 @@ function Register(props) {
         >
           Kayıt ol
         </button>
-        <Link to="/login"  className={` text-center ${
+        <Link
+          to="/login"
+          className={` text-center ${
             props.theme ? "text-slate-400" : "text-cyan-400"
-          }`}>Giriş Yap</Link>
+          }`}
+        >
+          Giriş Yap
+        </Link>
       </form>
     </div>
   );
