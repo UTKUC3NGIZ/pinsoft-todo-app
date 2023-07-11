@@ -11,7 +11,7 @@ import { toast } from "react-hot-toast";
 import { signOut } from "@firebase/auth";
 import { auth, addTodo } from "../firebase";
 import { Navigate } from "react-router";
-import {collection, onSnapshot, orderBy, query} from "firebase/firestore"
+import {collection, onSnapshot, orderBy, query, deleteDoc, doc} from "firebase/firestore"
 import {db} from "../firebase"
 
 export const ThemeContext = createContext("null ");
@@ -40,7 +40,6 @@ function App(props) {
       const todoAddDate = today.toLocaleTimeString([], timeOptions);
 
       await addTodo({
-        // id: Math.floor(Math.random() * 2000),
         value: newTask,
         completed: false,
         time: todoAddDate,
@@ -86,10 +85,13 @@ function App(props) {
     fetchTasks();
   }, []);
   /* delete task function, parameter: id */
+
   function deleteTask(id) {
     /* we add the new array all the tasks whose id's are different*/
-    const newList = tasks.filter((task) => task.id !== id);
-    setTasks(newList);
+    // const newList = tasks.filter((task) => task.id !== id);
+    const docRef =doc(db, "todos", id)
+    deleteDoc(docRef)
+    // setTasks(newList);
     toast("Task Deleted!", {
       icon: "🗑️",
       style: {
