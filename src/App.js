@@ -14,6 +14,7 @@ function App() {
   const [users, setUsers] = useState(null);
   const [loggedIn, setLoggedIn] = useState(true);
   const [userData, setUserData] = useState(null);
+  const [deneme,setDeneme] = useState([])
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
