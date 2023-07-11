@@ -53,8 +53,7 @@ export const logout = async () => {
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app)  
 export const addTodo = async data => {
-  const result = await addDoc(collection(db,"todos"),data)
-  console.log(result.id)
+await addDoc(collection(db,"todos"),data)
 }
 
 export const auth = getAuth();

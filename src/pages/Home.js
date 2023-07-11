@@ -39,14 +39,12 @@ function App(props) {
   const today = new Date();
   const dateOptions = { year: "numeric", month: "long", day: "numeric" };
   const formattedDate = today.toLocaleDateString(undefined, dateOptions);
-
+  const timeOptions = { hour: "2-digit", minute: "2-digit" };
+  const todoAddDate = today.toLocaleTimeString([], timeOptions);
   /* add task function*/
   const addTask = async (e) => {
     e.preventDefault();
     if (newTask.length !== 0) {
-      const timeOptions = { hour: "2-digit", minute: "2-digit" };
-      const todoAddDate = today.toLocaleTimeString([], timeOptions);
-
       await addTodo({
         value: newTask,
         completed: false,
@@ -95,10 +93,8 @@ function App(props) {
 
   function deleteTask(id) {
     /* we add the new array all the tasks whose id's are different*/
-    // const newList = tasks.filter((task) => task.id !== id);
     const docRef = doc(db, "todos", id);
     deleteDoc(docRef);
-    // setTasks(newList);
     toast("Task Deleted!", {
       icon: "🗑️",
       style: {
@@ -108,12 +104,11 @@ function App(props) {
     });
   }
   /* complete a task */
-  function completedTasks(id) {
-    const newList = tasks.map((task) =>
-      task.id === id ? { ...task, completed: !task.completed } : task
-    );
-    setTasks(newList);
-    if (newList[0].completed !== false) {
+  function completedTasks(task) {
+    const docRef = doc(db, "todos", task.id);
+    updateDoc(docRef, { completed: !task.completed });
+
+    if (task.completed !== true) {
       toast("it's over finally!", {
         icon: "🏌️",
         style: {
@@ -143,9 +138,9 @@ function App(props) {
   /* edit existing tasks */
   function change(e) {
     e.preventDefault();
-    const utku = tasks.map((task) => (task.id === edit.id ? edit : task));
-    const docRef = doc(db, "todos", utku[0].id);
-    updateDoc(docRef, { value: edit.value });
+    const updateTask = tasks.map((task) => (task.id === edit.id ? edit : task));
+    const docRef = doc(db, "todos", updateTask[0].id);
+    updateDoc(docRef, { value: edit.value, time: todoAddDate });
 
     setModal(false);
 
@@ -269,7 +264,7 @@ function App(props) {
                         <span className="absolute w-20 h-20 right-9 "></span>
 
                         <button
-                          onClick={() => completedTasks(task.id)}
+                          onClick={() => completedTasks(task)}
                           className={`absolute text-lg p-3 border-2 border-transparent shadow-lg rounded-full -top-8  hidden group-hover:!flex  hover:scale-110  ${
                             props.theme ? "bg-slate-600" : "bg-white"
                           }`}
