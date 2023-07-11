@@ -5,8 +5,8 @@ import {
   signInWithEmailAndPassword,
   signOut
 } from "firebase/auth";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 import toast from "react-hot-toast";
-
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -49,5 +49,12 @@ export const logout = async () => {
     toast.error(error.message);
   }
 };
+
 export const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app)  
+export const addTodo = async data => {
+  const result = await addDoc(collection(db,"todos"),data)
+  console.log(result.id)
+}
+
 export const auth = getAuth();
