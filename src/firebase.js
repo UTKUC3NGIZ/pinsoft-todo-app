@@ -48,8 +48,7 @@ export const logout = async () => {
   }
 };
 
-// const newPassword = 'newPassword123';
-// changePassword(newPassword);
+
 
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
@@ -59,4 +58,5 @@ export const addTodo = async (data) => {
 export const userData = async (data) => {
   await addDoc(collection(db, "users"), data);
 };
+
 export const auth = getAuth();

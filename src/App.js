@@ -8,13 +8,36 @@ import { Toaster } from "react-hot-toast";
 import { Routes, Route, Navigate } from "react-router";
 import { onAuthStateChanged, getAuth } from "@firebase/auth";
 import { auth, db } from "./firebase";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 
 function App() {
   const [theme, setTheme] = useState(false);
   const [users, setUsers] = useState(null);
   const [loggedIn, setLoggedIn] = useState(true);
   const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const q = query(collection(db, "users"));
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        console.log(data);
+      });
+      return unsubscribe;
+    };
+
+    fetchTasks();
+  }, []);
 
   useEffect(() => {
     const auth = getAuth();
@@ -30,7 +53,6 @@ function App() {
       unsubscribe();
     };
   }, []);
-
   const getUserData = async (userId) => {
     try {
       const q = query(collection(db, "users"), where("uid", "==", userId));
@@ -77,7 +99,10 @@ function App() {
         />
         <Route path="/login" element={<Login theme={theme} />} />
         <Route path="*" element={<Navigate to="/" />} />
-        <Route path="/settings" element={<Settings theme={theme} userData={userData} />} />
+        <Route
+          path="/settings"
+          element={<Settings theme={theme} userData={userData} />}
+        />
       </Routes>
     </>
   );
