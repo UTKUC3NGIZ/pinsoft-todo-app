@@ -30,9 +30,13 @@ function App(props) {
   const [modal, setModal] = useState(false);
   const [edit, setEdit] = useState([]);
   const [addButton, setaddButton] = useState(false);
+
   /* light/dark mode */
   const toggleTheme = () => {
-    props.setTheme(!props.theme);
+    const docRef = doc(db, "users", "ZJ4QK6PN7jiOCw68j6xT");
+    updateDoc(docRef, { theme:!props.userData.theme});
+    props.setTheme(!props.userData.theme);
+
   };
 
   /* date */
@@ -184,7 +188,7 @@ function App(props) {
             <span
               className={` ${props.theme ? "text-slate-400" : "text-cyan-400"}`}
             >
-              {props.users?.email}
+              {props.userData?.username}
             </span>
             <button
               onClick={logOut}

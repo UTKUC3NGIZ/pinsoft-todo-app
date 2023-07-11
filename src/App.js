@@ -10,12 +10,10 @@ import { auth, db } from "./firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
 function App() {
-  const [theme, setTheme] = useState(true);
+  const [theme, setTheme] = useState(false);
   const [users, setUsers] = useState(null);
   const [loggedIn, setLoggedIn] = useState(true);
-  // const [usersData, setUsersData] = useState([]);
   const [userData, setUserData] = useState(null);
-
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -37,12 +35,13 @@ function App() {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         setUserData(doc.data());
+        setTheme(doc.data().theme)
       });
     } catch (error) {
       console.error('Error fetching user data:', error);
     }
   };
-  console.log(userData)
+
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -67,6 +66,7 @@ function App() {
               setTheme={setTheme}
               users={users}
               loggedIn={loggedIn}
+              userData={userData}
             />
           }
         />

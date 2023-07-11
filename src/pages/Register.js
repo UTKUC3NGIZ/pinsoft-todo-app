@@ -23,7 +23,6 @@ function Register(props) {
       console.error('Error:', error);
     }
   };
-
   return (
     <div
       className={`responsive flex justify-center  items-center min-h-screen ${
