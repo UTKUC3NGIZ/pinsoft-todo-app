@@ -5,18 +5,48 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import { Toaster } from "react-hot-toast";
 import { Routes, Route, Navigate } from "react-router";
-import { onAuthStateChanged } from "@firebase/auth";
-import { auth } from "./firebase";
+import { onAuthStateChanged, getAuth } from "@firebase/auth";
+import { auth, db } from "./firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 function App() {
   const [theme, setTheme] = useState(true);
   const [users, setUsers] = useState(null);
   const [loggedIn, setLoggedIn] = useState(true);
+  // const [usersData, setUsersData] = useState([]);
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        getUserData(user.uid);
+      } else {
+        setUserData(null);
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const getUserData = async (userId) => {
+    try {
+      const q = query(collection(db, 'users'), where('uid', '==', userId));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        setUserData(doc.data());
+      });
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
+  console.log(userData)
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        // const uid = user.uid;
         setUsers(user);
         setLoggedIn(true);
       } else {
@@ -42,11 +72,11 @@ function App() {
         />
         <Route
           path="/register"
-          element={<Register theme={theme} setTheme={setTheme} users={users}/>}
+          element={<Register theme={theme} users={users} />}
         />
         <Route
           path="/login"
-          element={<Login theme={theme} setTheme={setTheme} />}
+          element={<Login theme={theme} />}
         />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
