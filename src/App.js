@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import Settings from "./pages/Settings";
 import { Toaster } from "react-hot-toast";
 import { Routes, Route, Navigate } from "react-router";
 import { onAuthStateChanged, getAuth } from "@firebase/auth";
@@ -14,7 +15,7 @@ function App() {
   const [users, setUsers] = useState(null);
   const [loggedIn, setLoggedIn] = useState(true);
   const [userData, setUserData] = useState(null);
-  const [deneme,setDeneme] = useState([])
+
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -32,17 +33,16 @@ function App() {
 
   const getUserData = async (userId) => {
     try {
-      const q = query(collection(db, 'users'), where('uid', '==', userId));
+      const q = query(collection(db, "users"), where("uid", "==", userId));
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         setUserData(doc.data());
-        setTheme(doc.data().theme)
+        setTheme(doc.data().theme);
       });
     } catch (error) {
-      console.error('Error fetching user data:', error);
+      console.error("Error fetching user data:", error);
     }
   };
-
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -75,11 +75,9 @@ function App() {
           path="/register"
           element={<Register theme={theme} users={users} />}
         />
-        <Route
-          path="/login"
-          element={<Login theme={theme} />}
-        />
+        <Route path="/login" element={<Login theme={theme} />} />
         <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/settings" element={<Settings theme={theme} userData={userData} />} />
       </Routes>
     </>
   );

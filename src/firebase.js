@@ -3,7 +3,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut
+  signOut,
 } from "firebase/auth";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import toast from "react-hot-toast";
@@ -16,8 +16,6 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_ID,
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
-
-
 
 export const register = async (email, password) => {
   try {
@@ -50,12 +48,15 @@ export const logout = async () => {
   }
 };
 
+// const newPassword = 'newPassword123';
+// changePassword(newPassword);
+
 export const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app)  
-export const addTodo = async data => {
-await addDoc(collection(db,"todos"),data)
-}
-export const userData = async data => {
-await addDoc(collection(db,"users"),data)
-}
+export const db = getFirestore(app);
+export const addTodo = async (data) => {
+  await addDoc(collection(db, "todos"), data);
+};
+export const userData = async (data) => {
+  await addDoc(collection(db, "users"), data);
+};
 export const auth = getAuth();

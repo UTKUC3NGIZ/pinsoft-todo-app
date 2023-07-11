@@ -21,6 +21,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
+import { Link } from "react-router-dom";
 
 export const ThemeContext = createContext("null ");
 
@@ -34,9 +35,8 @@ function App(props) {
   /* light/dark mode */
   const toggleTheme = () => {
     const docRef = doc(db, "users", "ZJ4QK6PN7jiOCw68j6xT");
-    updateDoc(docRef, { theme:!props.userData.theme});
+    updateDoc(docRef, { theme: !props.userData.theme });
     props.setTheme(!props.userData.theme);
-
   };
 
   /* date */
@@ -190,6 +190,14 @@ function App(props) {
             >
               {props.userData?.username}
             </span>
+            <Link
+              to="/settings"
+              className={` text-center ${
+                props.theme ? "text-slate-400" : "text-cyan-400"
+              }`}
+            >
+              Settings
+            </Link>
             <button
               onClick={logOut}
               className={` ${props.theme ? "text-slate-400" : "text-cyan-400"}`}
