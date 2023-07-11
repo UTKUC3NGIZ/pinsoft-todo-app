@@ -154,7 +154,9 @@ function App(props) {
   }
   /* delete completed tasks */
   function deleteCompleted() {
-    setTasks(tasks.filter((todo) => !todo.completed));
+    tasks.map((task) =>
+      task.completed === true ? deleteDoc(doc(db, "todos", task.id)) : ""
+    );
   }
   /* add button */
   function plusButton() {
