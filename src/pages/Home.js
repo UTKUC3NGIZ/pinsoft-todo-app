@@ -11,8 +11,16 @@ import { toast } from "react-hot-toast";
 import { signOut } from "@firebase/auth";
 import { auth, addTodo } from "../firebase";
 import { Navigate } from "react-router";
-import {collection, onSnapshot, orderBy, query, deleteDoc, doc} from "firebase/firestore"
-import {db} from "../firebase"
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  deleteDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
+import { db } from "../firebase";
 
 export const ThemeContext = createContext("null ");
 
@@ -33,7 +41,7 @@ function App(props) {
   const formattedDate = today.toLocaleDateString(undefined, dateOptions);
 
   /* add task function*/
-  const addTask = async e => {
+  const addTask = async (e) => {
     e.preventDefault();
     if (newTask.length !== 0) {
       const timeOptions = { hour: "2-digit", minute: "2-digit" };
@@ -43,7 +51,7 @@ function App(props) {
         value: newTask,
         completed: false,
         time: todoAddDate,
-        uid:props.users.uid
+        uid: props.users.uid,
       });
       setNewTask("");
       setaddButton(false);
@@ -62,23 +70,22 @@ function App(props) {
         },
       });
     }
-  }
+  };
 
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const q = query(collection(db, 'todos'), orderBy('time'));
+        const q = query(collection(db, "todos"), orderBy("time"));
         const unsubscribe = onSnapshot(q, (snapshot) => {
           const data = snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }));
-          console.log(data)
           setTasks(data);
         });
         return unsubscribe;
       } catch (error) {
-        console.error('Error fetching tasks:', error);
+        console.error("Error fetching tasks:", error);
       }
     };
 
@@ -89,8 +96,8 @@ function App(props) {
   function deleteTask(id) {
     /* we add the new array all the tasks whose id's are different*/
     // const newList = tasks.filter((task) => task.id !== id);
-    const docRef =doc(db, "todos", id)
-    deleteDoc(docRef)
+    const docRef = doc(db, "todos", id);
+    deleteDoc(docRef);
     // setTasks(newList);
     toast("Task Deleted!", {
       icon: "🗑️",
@@ -136,10 +143,10 @@ function App(props) {
   /* edit existing tasks */
   function change(e) {
     e.preventDefault();
-    const changeTodo = tasks.map((task) =>
-      task.id === edit.id ? { ...task, value: edit.value } : task
-    );
-    setTasks(changeTodo);
+    const utku = tasks.map((task) => (task.id === edit.id ? edit : task));
+    const docRef = doc(db, "todos", utku[0].id);
+    updateDoc(docRef, { value: edit.value });
+
     setModal(false);
 
     toast("Task Updated!", {
@@ -177,12 +184,15 @@ function App(props) {
           }`}
         >
           <div className="flex absolute top-0 right-0 p-5 text-white text-xl gap-5">
-            <span    className={` ${
-            props.theme ? "text-slate-400" : "text-cyan-400"
-          }`}>{props.users?.email}</span>
-            <button onClick={logOut}    className={` ${
-            props.theme ? "text-slate-400" : "text-cyan-400"
-          }`}>
+            <span
+              className={` ${props.theme ? "text-slate-400" : "text-cyan-400"}`}
+            >
+              {props.users?.email}
+            </span>
+            <button
+              onClick={logOut}
+              className={` ${props.theme ? "text-slate-400" : "text-cyan-400"}`}
+            >
               Çıkış Yap
             </button>
           </div>
