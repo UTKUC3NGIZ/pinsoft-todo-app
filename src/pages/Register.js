@@ -9,11 +9,12 @@ function Register(props) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [url, setUrl] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const generateRandomName = () => {
-    const randomName = uuidv4(); // Generate a random name using uuidv4
+    const randomName = uuidv4(); 
     return randomName;
   };
 
@@ -30,32 +31,36 @@ function Register(props) {
     }
   };
 
-  // useEffect(() => {
-  //   if (email) {
-  //     fetchImageUrl();
-  //   }
-  // }, [email]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const user = await register(email, password);
-      await userData({
-        uid: user.uid,
-        todo: [],
-        theme: true,
-        username: username,
-        img: url,
-      });
-      toast("mean someone new", {
-        icon: "🤠",
-        style: {
-          background: props.theme ? "#2e4155" : "#fff",
-          color: props.theme ? "#fff" : "#00ebfb",
-        },
-      });
-      window.location = "/";
+      if (confirmPassword === password) {
+        const user = await register(email, password);
+        await userData({
+          uid: user.uid,
+          todo: [],
+          theme: true,
+          username: username,
+          img: url,
+        });
+        toast("mean someone new", {
+          icon: "🤠",
+          style: {
+            background: props.theme ? "#2e4155" : "#fff",
+            color: props.theme ? "#fff" : "#00ebfb",
+          },
+        });
+        window.location = "/";
+      }else{
+        toast("passwords do not match", {
+          icon: "😔",
+          style: {
+            background: props.theme ? "#2e4155" : "#fff",
+            color: props.theme ? "#fff" : "#00ebfb",
+          },
+        });
+      }
     } catch (error) {
       console.error("Error:", error);
     }
@@ -130,9 +135,18 @@ function Register(props) {
         )}
         <input
           type="password"
-          placeholder="*********"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className={`border-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none w-full ${
+            props.theme ? "bg-slate-700 text-white" : ""
+          }`}
+        />
+        <input
+          type="password"
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
           className={`border-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none w-full ${
             props.theme ? "bg-slate-700 text-white" : ""
           }`}

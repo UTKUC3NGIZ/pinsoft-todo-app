@@ -184,16 +184,24 @@ function App(props) {
           }`}
         >
           <div className="flex absolute top-0 sm:right-0 p-5 text-white sm:text-2xl text-xl sm:gap-16 gap-8">
-            <Link
-              to="/settings"
-              className={` text-center ${
-                props.theme
-                  ? "text-slate-400 hover:text-slate-200 "
-                  : "text-cyan-400 hover:text-cyan-600"
-              }`}
-            >
-              {props.userData?.username}
-            </Link>
+            <div className="flex flex-row items-center sm:gap-4 gap-2">
+              <img
+                src={props.userData?.img}
+                alt=""
+                className="w-10 h-10 rounded-full"
+              />
+              <Link
+                to="/settings"
+                className={` text-center ${
+                  props.theme
+                    ? "text-slate-400 hover:text-slate-200 "
+                    : "text-cyan-400 hover:text-cyan-600"
+                }`}
+              >
+                {props.userData?.username}
+              </Link>
+            </div>
+
             <button
               onClick={logOut}
               className={` ${
@@ -206,7 +214,7 @@ function App(props) {
             </button>
           </div>
           <div
-            className={`w-screen  flex justify-center items-center ${
+            className={`w-screen  flex justify-center items-center mt-20${
               modal ? "blur-sm" : ""
             }`}
           >
