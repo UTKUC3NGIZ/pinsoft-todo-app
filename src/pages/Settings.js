@@ -1,15 +1,12 @@
-import {
-  signOut,
-  updatePassword,
-  onAuthStateChanged,
-} from "firebase/auth";
+import { signOut, updatePassword, onAuthStateChanged } from "firebase/auth";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
+import { doc, updateDoc } from "firebase/firestore";
 
 function Settings(props) {
   const [newPassword, setNewPassword] = useState("");
-
+  const [newUserName, setUserName] = useState("");
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) {
@@ -24,7 +21,7 @@ function Settings(props) {
     await signOut(auth);
     window.location = "/login";
   };
-  const handleSubmit = async (e) => {
+  const handleSubmitPassword = async (e) => {
     e.preventDefault();
     const user = auth.currentUser;
 
@@ -40,6 +37,12 @@ function Settings(props) {
       console.log("User not signed in");
     }
   };
+  const handleSubmitUserName = async (e) => {
+    e.preventDefault();
+    const docRef = doc(db, "users", props.userData.id);
+    updateDoc(docRef, { username: newUserName });
+    console.log(props.userData);
+  };
 
   return (
     <div
@@ -47,25 +50,6 @@ function Settings(props) {
         props.theme ? "bg-slate-900" : "bg-cyan-100"
       }`}
     >
-      <form className="flex flex-row gap-4" onSubmit={handleSubmit}>
-        <input
-          type="password"
-          placeholder="New Password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          className={`border-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none w-full  ${
-            props.theme ? "bg-slate-700 text-white" : ""
-          }`}
-        />
-        <button
-          type="submit"
-          className={` text-right text-xl ${
-            props.theme ? "text-slate-400" : "text-cyan-400"
-          }`}
-        >
-          Change
-        </button>
-      </form>
       <div className="flex absolute top-0 right-0 p-5 text-white text-xl gap-5">
         <span
           className={` ${props.theme ? "text-slate-400" : "text-cyan-400"}`}
@@ -86,6 +70,46 @@ function Settings(props) {
         >
           Çıkış Yap
         </button>
+      </div>
+      <div className="flex flex-col gap-5">
+        <form className="flex flex-row gap-4" onSubmit={handleSubmitUserName}>
+          <input
+            type="text"
+            placeholder="New Username"
+            value={newUserName}
+            onChange={(e) => setUserName(e.target.value)}
+            className={`border-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none w-full  ${
+              props.theme ? "bg-slate-700 text-white" : ""
+            }`}
+          />
+          <button
+            type="submit"
+            className={` text-right text-xl ${
+              props.theme ? "text-slate-400" : "text-cyan-400"
+            }`}
+          >
+            Update
+          </button>
+        </form>
+        <form className="flex flex-row gap-4" onSubmit={handleSubmitPassword}>
+          <input
+            type="password"
+            placeholder="New Password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            className={`border-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none w-full  ${
+              props.theme ? "bg-slate-700 text-white" : ""
+            }`}
+          />
+          <button
+            type="submit"
+            className={` text-right text-xl ${
+              props.theme ? "text-slate-400" : "text-cyan-400"
+            }`}
+          >
+            Update
+          </button>
+        </form>
       </div>
     </div>
   );

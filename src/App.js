@@ -45,7 +45,6 @@ function App() {
           setTheme(doc.data().theme);
         });
       });
-  
       return unsubscribe;
     } catch (error) {
       console.error("Error fetching user data:", error);
