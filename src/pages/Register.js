@@ -1,8 +1,9 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { userData, register, storage } from "../firebase";
 import { Link } from "react-router-dom";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
+import { toast } from "react-hot-toast";
 
 function Register(props) {
   const [email, setEmail] = useState("");
@@ -47,6 +48,13 @@ function Register(props) {
         username: username,
         img: url,
       });
+      toast("mean someone new", {
+        icon: "🤠",
+        style: {
+          background: props.theme ? "#2e4155" : "#fff",
+          color: props.theme ? "#fff" : "#00ebfb",
+        },
+      });
       window.location = "/";
     } catch (error) {
       console.error("Error:", error);
@@ -89,7 +97,13 @@ function Register(props) {
             props.theme ? "bg-slate-700 text-white" : ""
           }`}
         />
-        <input type="file" onChange={handleFileChange} />
+        <input
+          type="file"
+          onChange={handleFileChange}
+          className={`border-2 rounded-2xl border-transparent text-gray-400 shadow-lg py-2 px-4 text-xl font-bold outline-none w-full  ${
+            props.theme ? "bg-slate-700 " : "bg-white"
+          }`}
+        />
         {loading ? <div>Loading...</div> : url && "successful"}
         <input
           type="password"
@@ -103,16 +117,16 @@ function Register(props) {
         <button
           disabled={!email || !password}
           type="submit"
-          className={` text-right ${
-            props.theme ? "text-slate-400" : "text-cyan-400"
+          className={` text-right text-xl ${
+            props.theme ? "text-slate-400 hover:text-slate-200 " : "text-cyan-400 hover:text-cyan-600"
           }`}
         >
           Kayıt ol
         </button>
         <Link
           to="/login"
-          className={` text-center ${
-            props.theme ? "text-slate-400" : "text-cyan-400"
+          className={` text-center text-base mt-8 ${
+            props.theme ? "text-slate-400 hover:text-slate-200 " : "text-cyan-400 hover:text-cyan-600"
           }`}
         >
           Giriş Yap

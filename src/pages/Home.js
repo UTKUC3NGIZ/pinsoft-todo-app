@@ -53,6 +53,7 @@ function App(props) {
         completed: false,
         time: todoAddDate,
         uid: props.users.uid,
+        img: props.userData.img,
       });
       setNewTask("");
       setaddButton(false);
@@ -93,7 +94,7 @@ function App(props) {
     fetchTasks();
   }, []);
   /* delete task function, parameter: id */
-
+  console.log(tasks);
   function deleteTask(id) {
     /* we add the new array all the tasks whose id's are different*/
     const docRef = doc(db, "todos", id);
@@ -184,22 +185,23 @@ function App(props) {
           }`}
         >
           <div className="flex absolute top-0 right-0 p-5 text-white text-2xl gap-16">
-            <span
-              className={`${props.theme ? "text-slate-400" : "text-cyan-400"}`}
-            >
-              {props.userData?.username}
-            </span>
             <Link
               to="/settings"
               className={` text-center ${
-                props.theme ? "text-slate-400" : "text-cyan-400"
+                props.theme
+                  ? "text-slate-400 hover:text-slate-200 "
+                  : "text-cyan-400 hover:text-cyan-600"
               }`}
             >
-              Settings
+              {props.userData?.username}
             </Link>
             <button
               onClick={logOut}
-              className={` ${props.theme ? "text-slate-400" : "text-cyan-400"}`}
+              className={` ${
+                props.theme
+                  ? "text-slate-400 hover:text-slate-200 "
+                  : "text-cyan-400 hover:text-cyan-600"
+              }`}
             >
               Çıkış Yap
             </button>
@@ -294,7 +296,7 @@ function App(props) {
                         </button>
 
                         <img
-                          src={props.userData.img}
+                          src={task.img}
                           alt=""
                           className="w-14 group rounded-full"
                         />
@@ -305,7 +307,7 @@ function App(props) {
               </div>
               <div className="flex justify-center mt-3 flex-col items-center">
                 <button
-                  className={`text-lg border-2 rounded-full border-transparent shadow-lg  p-4 ${
+                  className={`text-lg border-2 rounded-full border-transparent shadow-lg hover:opacity-80 p-4 ${
                     addButton ? "!hidden" : ""
                   } ${props.theme ? "bg-slate-700" : "bg-white"}`}
                   onClick={plusButton}
@@ -331,7 +333,11 @@ function App(props) {
                       onClick={(e) => addTask(e)}
                       className={`absolute right-0 pr-4   ${
                         addButton ? "animate-opacity " : ""
-                      } ${props.theme ? "text-slate-400" : "text-cyan-400"}`}
+                      } ${
+                        props.theme
+                          ? "text-slate-400 hover:text-slate-200 "
+                          : "text-cyan-400 hover:text-cyan-600"
+                      }`}
                     >
                       Add
                     </button>
@@ -379,7 +385,7 @@ function App(props) {
                     />
                     <button
                       onClick={(e) => change(e)}
-                      className="absolute text-xl right-4 pl-2 h-full rounded-2xl text-cyan-300 "
+                      className="absolute text-xl right-4 pl-2 h-full rounded-2xl text-cyan-300 hover:text-cyan-500"
                     >
                       Change
                     </button>

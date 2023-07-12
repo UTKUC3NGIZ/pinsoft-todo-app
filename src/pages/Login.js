@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { login } from "../firebase";
 import { Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 function Login(props) {
   const [email, setEmail] = useState("");
@@ -9,6 +10,13 @@ function Login(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const user = await login(email, password);
+    toast("Signed in", {
+      icon: "👍",
+      style: {
+        background: props.theme ? "#2e4155" : "#fff",
+        color: props.theme ? "#fff" : "#00ebfb",
+      },
+    });
     if (user) {
       window.location = "/";
     }
@@ -42,15 +50,18 @@ function Login(props) {
         <button
           disabled={!email || !password}
           type="submit"
-          className={` text-right ${
-            props.theme ? "text-slate-400" : "text-cyan-400"
+          className={` text-right text-xl ${
+            props.theme ? "text-slate-400 hover:text-slate-200 " : "text-cyan-400 hover:text-cyan-600"
           }`}
         >
           Giriş Yap
         </button>
-        <Link to="/register"  className={` text-center ${
-            props.theme ? "text-slate-400" : "text-cyan-400"
-          }`}>
+        <Link
+          to="/register"
+          className={` text-center mt-8 text-base  ${
+            props.theme ? "text-slate-400 hover:text-slate-200 " : "text-cyan-400 hover:text-cyan-600"
+          }`}
+        >
           Yeni Hesap Aç
         </Link>
       </form>
