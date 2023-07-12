@@ -10,34 +10,16 @@ import { onAuthStateChanged, getAuth } from "@firebase/auth";
 import { auth, db } from "./firebase";
 import {
   collection,
-  getDocs,
   onSnapshot,
-  orderBy,
   query,
   where,
 } from "firebase/firestore";
 
 function App() {
-  const [theme, setTheme] = useState(false);
+  const [theme, setTheme] = useState(true);
   const [users, setUsers] = useState(null);
   const [loggedIn, setLoggedIn] = useState(true);
   const [userData, setUserData] = useState(null);
-
-  useEffect(() => {
-    const fetchTasks = async () => {
-      const q = query(collection(db, "users"));
-      const unsubscribe = onSnapshot(q, (snapshot) => {
-        const data = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        console.log(data);
-      });
-      return unsubscribe;
-    };
-
-    fetchTasks();
-  }, []);
 
   useEffect(() => {
     const auth = getAuth();
@@ -53,14 +35,18 @@ function App() {
       unsubscribe();
     };
   }, []);
-  const getUserData = async (userId) => {
+
+  const getUserData = (userId) => {
     try {
       const q = query(collection(db, "users"), where("uid", "==", userId));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        setUserData(doc.data());
-        setTheme(doc.data().theme);
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          setUserData({ id: doc.id, ...doc.data() });
+          setTheme(doc.data().theme);
+        });
       });
+  
+      return unsubscribe;
     } catch (error) {
       console.error("Error fetching user data:", error);
     }

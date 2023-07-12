@@ -14,7 +14,7 @@ function Register(props) {
       await userData({
         uid: user.uid,
         todo: [],
-        theme: false,
+        theme: true,
         username: username,
         img: "",
       });

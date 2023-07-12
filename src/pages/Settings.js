@@ -1,5 +1,4 @@
 import {
-  getAuth,
   signOut,
   updatePassword,
   onAuthStateChanged,

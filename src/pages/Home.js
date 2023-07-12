@@ -34,11 +34,9 @@ function App(props) {
 
   /* light/dark mode */
   const toggleTheme = () => {
-    const docRef = doc(db, "users", props.userData.uid);
+    const docRef = doc(db, "users", props.userData.id);
     updateDoc(docRef, { theme: !props.userData.theme });
-    props.setTheme(!props.userData.theme);
   };
-
 
   /* date */
   const today = new Date();
