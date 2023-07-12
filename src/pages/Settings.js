@@ -64,7 +64,7 @@ function Settings(props) {
         props.theme ? "bg-slate-900" : "bg-cyan-100"
       }`}
     >
-      <div className="flex absolute top-0 right-0 p-5 text-white text-2xl gap-16">
+      <div className="flex absolute top-0 sm:right-0 p-5 text-white sm:text-2xl text-xl sm:gap-16 gap-8">
         <span
           className={` ${props.theme ? "text-slate-400" : "text-cyan-400"}`}
         >

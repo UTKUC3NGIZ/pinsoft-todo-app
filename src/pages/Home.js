@@ -94,7 +94,6 @@ function App(props) {
     fetchTasks();
   }, []);
   /* delete task function, parameter: id */
-  console.log(tasks);
   function deleteTask(id) {
     /* we add the new array all the tasks whose id's are different*/
     const docRef = doc(db, "todos", id);
@@ -184,7 +183,7 @@ function App(props) {
             props.theme ? "bg-slate-900" : "bg-cyan-100"
           }`}
         >
-          <div className="flex absolute top-0 right-0 p-5 text-white text-2xl gap-16">
+          <div className="flex absolute top-0 sm:right-0 p-5 text-white sm:text-2xl text-xl sm:gap-16 gap-8">
             <Link
               to="/settings"
               className={` text-center ${
@@ -325,7 +324,7 @@ function App(props) {
                       placeholder="Enter a new task!"
                       value={newTask}
                       onChange={(e) => setNewTask(e.target.value)}
-                      className={`border-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none w-full ${
+                      className={`border-2 rounded-2xl border-transparent pr-16 shadow-lg py-2 px-4 text-xl font-bold outline-none w-full ${
                         addButton ? "animate-opacity" : ""
                       } ${props.theme ? "bg-slate-700 text-white" : ""}`}
                     />
@@ -352,7 +351,7 @@ function App(props) {
             } `}
           >
             <div
-              className={`border-2 border-transparent shadow-lg lg:px-20 lg:py-10 px-10 py-5 relative rounded-2xl ${
+              className={`border-2 border-transparent shadow-lg lg:px-20 lg:py-10 px-10 py-5 sm:max-w-xl max-w-xl lg:max-w-none relative rounded-2xl ${
                 props.theme ? "bg-slate-800 " : "bg-white"
               }`}
             >
@@ -377,7 +376,7 @@ function App(props) {
                       value={edit.value}
                       onChange={(e) => editTask(e.target.value)}
                       placeholder="Update the task!"
-                      className={`border-2 ml-2 rounded-2xl border-transparent shadow-lg py-2 sm:px-4 pl-2 pr-24 text-xl font-bold text-gray-600 placeholder:w-2 ${
+                      className={`border-2 ml-2 rounded-2xl border-transparent shadow-lg py-2 sm:px-4 pl-2 sm:pr-24 pr-24  text-xl font-bold text-gray-600 placeholder:w-2 ${
                         props.theme
                           ? "bg-slate-700 text-white outline-none"
                           : "bg-white outline-cyan-300"
