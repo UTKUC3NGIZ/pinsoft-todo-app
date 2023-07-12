@@ -29,6 +29,7 @@ function Register(props) {
         props.theme ? "bg-slate-900" : "bg-cyan-100"
       }`}
     >
+      
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
         <input
           type="text"
