@@ -8,12 +8,7 @@ import { Toaster } from "react-hot-toast";
 import { Routes, Route, Navigate } from "react-router";
 import { onAuthStateChanged, getAuth } from "@firebase/auth";
 import { auth, db } from "./firebase";
-import {
-  collection,
-  onSnapshot,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 
 function App() {
   const [theme, setTheme] = useState(true);
@@ -61,8 +56,6 @@ function App() {
       }
     });
   }, []);
-
-
 
   return (
     <>

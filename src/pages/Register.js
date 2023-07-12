@@ -112,8 +112,16 @@ function Register(props) {
         <input
           type="file"
           onChange={handleFileChange}
-          className={`border-2 rounded-2xl border-transparent text-gray-400 shadow-lg py-2 px-4 text-xl font-bold outline-none w-full  ${
-            props.theme ? "bg-slate-700 " : "bg-white"
+          className={`text-sm font-bold   w-2/3
+          file:mr-4 file:py-2 file:px-4
+          file:rounded-2xl file:border-0
+          file:text-sm file:font-semibold
+          bg-transparent 
+          file:text-gray-400
+          hover:file:bg-violet-100${
+            props.theme
+              ? " text-gray-400  file:bg-slate-700 file:hover:bg-white"
+              : "  file:bg-white  text-gray-400 file:hover:bg-white file:hover:text-cyan-400"
           }`}
         />
         {loading ? (

@@ -109,16 +109,13 @@ function Settings(props) {
             alt=""
             className="w-10 h-10 rounded-full"
           />
-          <Link
-            to="/"
+          <span
             className={` text-center ${
-              props.theme
-                ? "text-slate-400 hover:text-slate-200 "
-                : "text-cyan-400 hover:text-cyan-600"
+              props.theme ? "text-slate-400  " : "text-cyan-400 "
             }`}
           >
             {props.userData?.username}
-          </Link>
+          </span>
         </div>
         <Link
           to="/"
@@ -142,7 +139,10 @@ function Settings(props) {
         </button>
       </div>
       <div className="flex flex-col gap-5">
-        <form className="flex flex-row gap-4  items-center" onSubmit={handleSubmitUserName}>
+        <form
+          className="flex flex-row gap-4  items-center"
+          onSubmit={handleSubmitUserName}
+        >
           <input
             type="text"
             placeholder="New Username"
@@ -163,7 +163,10 @@ function Settings(props) {
             Update
           </button>
         </form>
-        <form className="flex flex-row gap-4  items-center" onSubmit={handleSubmitPassword}>
+        <form
+          className="flex flex-row gap-4  items-center"
+          onSubmit={handleSubmitPassword}
+        >
           <input
             type="password"
             placeholder="New Password"
@@ -188,16 +191,22 @@ function Settings(props) {
           <input
             type="file"
             onChange={handleSubmitPhoto}
-            className={`border-2 rounded-2xl w-2/3 border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none  ${
-              props.theme ? "bg-slate-700 text-white" : ""
+            className={`text-sm font-bold   w-2/3
+            file:mr-4 file:py-2 file:px-4
+            file:rounded-2xl file:border-0
+            file:text-sm file:font-semibold
+            bg-transparent 
+            file:text-gray-400
+            hover:file:bg-violet-100${
+              props.theme
+                ? " text-gray-400  file:bg-slate-700 file:hover:bg-white"
+                : "  file:bg-white  text-gray-400 file:hover:bg-white file:hover:text-cyan-400"
             }`}
           />
           {loadingChange ? (
             <div
               className={` text-right text-xl ${
-                props.theme
-                  ? "text-slate-400 hover:text-slate-200 "
-                  : "text-cyan-400 hover:text-cyan-600"
+                props.theme ? "text-slate-400  " : "text-cyan-400 "
               }`}
             >
               Loading...
@@ -206,26 +215,13 @@ function Settings(props) {
             changeUrl && (
               <div
                 className={` text-right text-xl ${
-                  props.theme
-                    ? "text-slate-400 hover:text-slate-200 "
-                    : "text-cyan-400 hover:text-cyan-600"
+                  props.theme ? "text-slate-400 " : "text-cyan-400 "
                 }`}
               >
                 successful
               </div>
             )
           )}
-
-          {/* <button
-            type="submit"
-            className={` text-right text-xl ${
-              props.theme
-                ? "text-slate-400 hover:text-slate-200 "
-                : "text-cyan-400 hover:text-cyan-600"
-            }`}
-          >
-            Update
-          </button> */}
         </form>
       </div>
     </div>
