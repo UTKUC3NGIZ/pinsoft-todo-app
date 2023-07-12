@@ -87,7 +87,7 @@ function App(props) {
         });
         return unsubscribe;
       } catch (error) {
-        console.error("Error fetching tasks:", error);
+        console.log("Error fetching tasks:", error);
       }
     };
 

@@ -6,7 +6,6 @@ import {
   signOut,
 } from "firebase/auth";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
-import toast from "react-hot-toast";
 import {getStorage} from "firebase/storage"
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -27,7 +26,7 @@ export const register = async (email, password) => {
     );
     return user;
   } catch (error) {
-    toast.error(error.message);
+    console.log(error.message);
   }
 };
 
@@ -36,7 +35,7 @@ export const login = async (email, password) => {
     const { user } = await signInWithEmailAndPassword(auth, email, password);
     return user;
   } catch (error) {
-    toast.error(error.message);
+    console.log(error.message);
   }
 };
 
@@ -45,7 +44,7 @@ export const logout = async () => {
     await signOut(auth);
     return true;
   } catch (error) {
-    toast.error(error.message);
+    console.log(error.message);
   }
 };
 

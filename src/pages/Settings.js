@@ -28,36 +28,39 @@ function Settings(props) {
     e.preventDefault();
     const user = auth.currentUser;
 
-    if (user) {
+    if (user && newPassword.length >= 6) {
       updatePassword(user, newPassword)
         .then(() => {
-          console.log("Password updated successfully!");
+          toast("Password Updated Successfully", {
+            icon: "👋",
+            style: {
+              background: props.theme ? "#2e4155" : "#fff",
+              color: props.theme ? "#fff" : "#00ebfb",
+            },
+          });
         })
         .catch((error) => {
-          console.error("Error updating password:", error);
+          console.log("Error updating password:", error);
         });
-      toast("Password Updated Successfully", {
+    } else {
+      toast.error("be at least 6 characters long");
+    }
+  };
+  const handleSubmitUserName = async (e) => {
+    e.preventDefault();
+    if (newUserName.length >= 4) {
+      const docRef = doc(db, "users", props.userData.id);
+      updateDoc(docRef, { username: newUserName });
+      toast("username successfully updated", {
         icon: "👋",
         style: {
           background: props.theme ? "#2e4155" : "#fff",
           color: props.theme ? "#fff" : "#00ebfb",
         },
       });
-    } else {
-      console.log("User not signed in");
+    }else{
+      toast.error("be at least 4 characters long");
     }
-  };
-  const handleSubmitUserName = async (e) => {
-    e.preventDefault();
-    const docRef = doc(db, "users", props.userData.id);
-    updateDoc(docRef, { username: newUserName });
-    toast("username successfully updated", {
-      icon: "👋",
-      style: {
-        background: props.theme ? "#2e4155" : "#fff",
-        color: props.theme ? "#fff" : "#00ebfb",
-      },
-    });
   };
 
   // photo change
@@ -138,9 +141,9 @@ function Settings(props) {
           Log out
         </button>
       </div>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-5 w-2/3 md:w-1/3 md">
         <form
-          className="flex flex-row gap-4  items-center"
+          className="flex flex-row gap-4 justify-center  items-center"
           onSubmit={handleSubmitUserName}
         >
           <input
@@ -148,7 +151,7 @@ function Settings(props) {
             placeholder="New Username"
             value={newUserName}
             onChange={(e) => setUserName(e.target.value)}
-            className={`border-2 rounded-2xl w-2/3 border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none  ${
+            className={`border-2 rounded-2xl w-full border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none  ${
               props.theme ? "bg-slate-700 text-white" : ""
             }`}
           />
@@ -164,7 +167,7 @@ function Settings(props) {
           </button>
         </form>
         <form
-          className="flex flex-row gap-4  items-center"
+          className="flex flex-row gap-4 justify-center  items-center"
           onSubmit={handleSubmitPassword}
         >
           <input
@@ -172,7 +175,7 @@ function Settings(props) {
             placeholder="New Password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
-            className={`border-2 rounded-2xl w-2/3 border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none  ${
+            className={`border-2 rounded-2xl w-full border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none  ${
               props.theme ? "bg-slate-700 text-white" : ""
             }`}
           />
@@ -187,11 +190,11 @@ function Settings(props) {
             Update
           </button>
         </form>
-        <form className="flex flex-row gap-4  items-center">
+        <form className="flex flex-row gap-4 justify-center  items-center">
           <input
             type="file"
             onChange={handleSubmitPhoto}
-            className={`text-sm font-bold   w-2/3
+            className={`text-sm font-bold   w-full
             file:mr-4 file:py-2 file:px-4
             file:rounded-2xl file:border-0
             file:text-sm file:font-semibold

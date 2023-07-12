@@ -11,10 +11,9 @@ function Register(props) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [url, setUrl] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   const generateRandomName = () => {
-    const randomName = uuidv4(); 
+    const randomName = uuidv4();
     return randomName;
   };
 
@@ -26,16 +25,18 @@ function Register(props) {
       setUrl(downloadURL);
     } catch (error) {
       console.log(error);
-    } finally {
-      setLoading(false);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     try {
-      if (confirmPassword === password) {
+      if (
+        confirmPassword === password &&
+        email.length > 0 &&
+        username.length >= 8 &&
+        password.length >= 6
+      ) {
         const user = await register(email, password);
         await userData({
           uid: user.uid,
@@ -52,8 +53,8 @@ function Register(props) {
           },
         });
         window.location = "/";
-      }else{
-        toast("passwords do not match", {
+      } else {
+        toast("You filled in the required fields incompletely or incorrectly", {
           icon: "😔",
           style: {
             background: props.theme ? "#2e4155" : "#fff",
@@ -62,18 +63,16 @@ function Register(props) {
         });
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.log("Error:", error);
     }
   };
 
   const handleFileChange = (e) => {
     const file = e.currentTarget.files[0];
-    setLoading(true);
     uploadBytes(imageRef, file)
       .then(() => fetchImageUrl())
       .catch((error) => {
         console.log(error);
-        setLoading(false);
       });
   };
 
@@ -124,23 +123,7 @@ function Register(props) {
               : "  file:bg-white  text-gray-400 file:hover:bg-white file:hover:text-cyan-400"
           }`}
         />
-        {loading ? (
-          <div
-            className={`${props.theme ? "text-slate-400  " : "text-cyan-400 "}`}
-          >
-            Loading...
-          </div>
-        ) : (
-          url && (
-            <div
-              className={`${
-                props.theme ? "text-slate-400  " : "text-cyan-400 "
-              }`}
-            >
-              successful
-            </div>
-          )
-        )}
+
         <input
           type="password"
           placeholder="Password"
@@ -160,7 +143,6 @@ function Register(props) {
           }`}
         />
         <button
-          disabled={!email || !password}
           type="submit"
           className={` text-right text-xl ${
             props.theme

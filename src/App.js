@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Settings from "./pages/Settings";
-import { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import { Routes, Route, Navigate } from "react-router";
 import { onAuthStateChanged, getAuth } from "@firebase/auth";
 import { auth, db } from "./firebase";
@@ -42,7 +42,7 @@ function App() {
       });
       return unsubscribe;
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      console.log("Error fetching user data:", error);
     }
   };
 

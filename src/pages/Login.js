@@ -11,10 +11,18 @@ function Login(props) {
     e.preventDefault();
     const user = await login(email, password);
 
-    if (user) {
+    if (user && email.length > 0 && password.length >= 6) {
       window.location = "/";
       toast("Signed in", {
         icon: "👍",
+        style: {
+          background: props.theme ? "#2e4155" : "#fff",
+          color: props.theme ? "#fff" : "#00ebfb",
+        },
+      });
+    } else {
+      toast("You filled in the required fields incompletely or incorrectly", {
+        icon: "😔",
         style: {
           background: props.theme ? "#2e4155" : "#fff",
           color: props.theme ? "#fff" : "#00ebfb",
@@ -29,7 +37,7 @@ function Login(props) {
         props.theme ? "bg-slate-900" : "bg-cyan-100"
       }`}
     >
-            <h1
+      <h1
         className={` text-3xl mb-10 font-bold  ${
           props.theme ? " text-white" : "text-cyan-700"
         }`}
@@ -56,7 +64,6 @@ function Login(props) {
           }`}
         />
         <button
-          disabled={!email || !password}
           type="submit"
           className={` text-right text-xl ${
             props.theme
