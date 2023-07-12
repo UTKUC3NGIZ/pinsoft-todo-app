@@ -20,8 +20,7 @@ function App() {
   const [users, setUsers] = useState(null);
   const [loggedIn, setLoggedIn] = useState(true);
   const [userData, setUserData] = useState(null);
-  console.log(userData)
-console.log(userData)
+
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (user) => {

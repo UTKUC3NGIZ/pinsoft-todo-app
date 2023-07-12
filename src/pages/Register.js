@@ -1,26 +1,43 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { userData, register, storage } from "../firebase";
 import { Link } from "react-router-dom";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { v4 as uuidv4 } from "uuid";
 
 function Register(props) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [url, setUrl] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const imageRef = ref(storage, "users/image-name");
+  const generateRandomName = () => {
+    const randomName = uuidv4(); // Generate a random name using uuidv4
+    return randomName;
+  };
 
-  useEffect(() => {
-    getDownloadURL(imageRef)
-      .then((url) => {
-        setUrl(url);
-      })
-      .catch((e) => [console.log(e)]);
-  }, []);
+  const imageRef = ref(storage, `users/${generateRandomName()}`);
+
+  const fetchImageUrl = async () => {
+    try {
+      const downloadURL = await getDownloadURL(imageRef);
+      setUrl(downloadURL);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // useEffect(() => {
+  //   if (email) {
+  //     fetchImageUrl();
+  //   }
+  // }, [email]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const user = await register(email, password);
       await userData({
@@ -34,6 +51,17 @@ function Register(props) {
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.currentTarget.files[0];
+    setLoading(true);
+    uploadBytes(imageRef, file)
+      .then(() => fetchImageUrl())
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
   };
 
   return (
@@ -61,12 +89,8 @@ function Register(props) {
             props.theme ? "bg-slate-700 text-white" : ""
           }`}
         />
-        <input
-          type="file"
-          onChange={(e) => {
-            uploadBytes(imageRef, e.currentTarget.files[0]);
-          }}
-        />
+        <input type="file" onChange={handleFileChange} />
+        {loading ? <div>Loading...</div> : url && "successful"}
         <input
           type="password"
           placeholder="parola"
@@ -97,4 +121,5 @@ function Register(props) {
     </div>
   );
 }
+
 export default Register;
