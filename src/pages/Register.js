@@ -74,10 +74,17 @@ function Register(props) {
 
   return (
     <div
-      className={`responsive flex justify-center  items-center min-h-screen ${
+      className={`responsive flex justify-center flex-col p-5 items-center min-h-screen ${
         props.theme ? "bg-slate-900" : "bg-cyan-100"
       }`}
     >
+      <h1
+        className={` text-3xl mb-10 font-bold  ${
+          props.theme ? " text-white" : "text-cyan-700"
+        }`}
+      >
+        Create Your Account
+      </h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
         <input
           type="text"
@@ -106,11 +113,7 @@ function Register(props) {
         />
         {loading ? (
           <div
-            className={`${
-              props.theme
-                ? "text-slate-400  "
-                : "text-cyan-400 "
-            }`}
+            className={`${props.theme ? "text-slate-400  " : "text-cyan-400 "}`}
           >
             Loading...
           </div>
@@ -118,9 +121,7 @@ function Register(props) {
           url && (
             <div
               className={`${
-                props.theme
-                  ? "text-slate-400  "
-                  : "text-cyan-400 "
+                props.theme ? "text-slate-400  " : "text-cyan-400 "
               }`}
             >
               successful

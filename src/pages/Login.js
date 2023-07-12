@@ -25,10 +25,17 @@ function Login(props) {
 
   return (
     <div
-      className={`responsive flex justify-center  items-center min-h-screen ${
+      className={`responsive flex justify-center flex-col  items-center min-h-screen ${
         props.theme ? "bg-slate-900" : "bg-cyan-100"
       }`}
     >
+            <h1
+        className={` text-3xl mb-10 font-bold  ${
+          props.theme ? " text-white" : "text-cyan-700"
+        }`}
+      >
+        Sign In
+      </h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
         <input
           type="text"
