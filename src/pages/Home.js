@@ -203,7 +203,7 @@ function App(props) {
                   : "text-cyan-400 hover:text-cyan-600"
               }`}
             >
-              Çıkış Yap
+              Log out
             </button>
           </div>
           <div

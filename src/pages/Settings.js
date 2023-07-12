@@ -34,13 +34,13 @@ function Settings(props) {
         .catch((error) => {
           console.error("Error updating password:", error);
         });
-        toast("Password Updated Successfully", {
-          icon: "👋",
-          style: {
-            background: props.theme ? "#2e4155" : "#fff",
-            color: props.theme ? "#fff" : "#00ebfb",
-          },
-        });
+      toast("Password Updated Successfully", {
+        icon: "👋",
+        style: {
+          background: props.theme ? "#2e4155" : "#fff",
+          color: props.theme ? "#fff" : "#00ebfb",
+        },
+      });
     } else {
       console.log("User not signed in");
     }
@@ -88,7 +88,7 @@ function Settings(props) {
               : "text-cyan-400 hover:text-cyan-600"
           }`}
         >
-          Çıkış Yap
+          Log out
         </button>
       </div>
       <div className="flex flex-col gap-5">
