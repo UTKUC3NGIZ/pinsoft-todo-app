@@ -41,7 +41,6 @@ function Settings(props) {
     e.preventDefault();
     const docRef = doc(db, "users", props.userData.id);
     updateDoc(docRef, { username: newUserName });
-    console.log(props.userData);
   };
 
   return (

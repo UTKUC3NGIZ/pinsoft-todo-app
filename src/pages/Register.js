@@ -1,12 +1,24 @@
-import React, { useState } from "react";
-import { userData } from "../firebase";
-import { register } from "../firebase";
+import React, { useEffect, useState } from "react";
+import { userData, register, storage } from "../firebase";
 import { Link } from "react-router-dom";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 function Register(props) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [url, setUrl] = useState(null);
+
+  const imageRef = ref(storage, "users/image-name");
+
+  useEffect(() => {
+    getDownloadURL(imageRef)
+      .then((url) => {
+        setUrl(url);
+      })
+      .catch((e) => [console.log(e)]);
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -16,20 +28,20 @@ function Register(props) {
         todo: [],
         theme: true,
         username: username,
-        img: "",
+        img: url,
       });
       window.location = "/";
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
+
   return (
     <div
       className={`responsive flex justify-center  items-center min-h-screen ${
         props.theme ? "bg-slate-900" : "bg-cyan-100"
       }`}
     >
-      
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
         <input
           type="text"
@@ -48,6 +60,12 @@ function Register(props) {
           className={`border-2 rounded-2xl border-transparent shadow-lg py-2 px-4 text-xl font-bold outline-none w-full  ${
             props.theme ? "bg-slate-700 text-white" : ""
           }`}
+        />
+        <input
+          type="file"
+          onChange={(e) => {
+            uploadBytes(imageRef, e.currentTarget.files[0]);
+          }}
         />
         <input
           type="password"

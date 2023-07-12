@@ -9,7 +9,6 @@ function Login(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const user = await login(email, password);
-    console.log(user);
     if (user) {
       window.location = "/";
     }

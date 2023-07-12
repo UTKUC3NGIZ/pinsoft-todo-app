@@ -183,9 +183,9 @@ function App(props) {
             props.theme ? "bg-slate-900" : "bg-cyan-100"
           }`}
         >
-          <div className="flex absolute top-0 right-0 p-5 text-white text-xl gap-5">
+          <div className="flex absolute top-0 right-0 p-5 text-white text-2xl gap-16">
             <span
-              className={` ${props.theme ? "text-slate-400" : "text-cyan-400"}`}
+              className={`${props.theme ? "text-slate-400" : "text-cyan-400"}`}
             >
               {props.userData?.username}
             </span>
@@ -294,9 +294,9 @@ function App(props) {
                         </button>
 
                         <img
-                          src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                          src={props.userData.img}
                           alt=""
-                          className="w-14 group"
+                          className="w-14 group rounded-full"
                         />
                       </div>
                     </div>
