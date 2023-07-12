@@ -38,7 +38,7 @@ function Login(props) {
       </h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
         <input
-          type="text"
+          type="email"
           placeholder="example@gmail.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
