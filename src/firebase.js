@@ -6,7 +6,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
-import {getStorage} from "firebase/storage"
+import { getStorage } from "firebase/storage";
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -48,15 +48,13 @@ export const logout = async () => {
   }
 };
 
-
-
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+export const storage = getStorage(app);
+export const auth = getAuth();
 export const addTodo = async (data) => {
   await addDoc(collection(db, "todos"), data);
 };
 export const userData = async (data) => {
   await addDoc(collection(db, "users"), data);
 };
-export const storage = getStorage(app)
-export const auth = getAuth();

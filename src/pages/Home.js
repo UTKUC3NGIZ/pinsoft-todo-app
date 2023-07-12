@@ -143,7 +143,7 @@ function App(props) {
     e.preventDefault();
     const updateTask = tasks.map((task) => (task.id === edit.id ? edit : task));
     const docRef = doc(db, "todos", updateTask[0].id);
-    updateDoc(docRef, { value: edit.value, time: todoAddDate });
+    updateDoc(docRef, { value: edit.value, time: todoAddDate, img:props.userData.img });
 
     setModal(false);
 
@@ -174,7 +174,6 @@ function App(props) {
   };
 
   return (
-    // darkmode
 
     <div>
       {props.loggedIn ? (
@@ -214,7 +213,7 @@ function App(props) {
             </button>
           </div>
           <div
-            className={`w-screen  flex justify-center items-center mt-20${
+            className={`w-screen  flex justify-center items-center mt-20  ${
               modal ? "blur-sm" : ""
             }`}
           >
