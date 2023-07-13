@@ -9,25 +9,43 @@ function Login(props) {
   const [password, setPassword] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const user = await login(email, password);
 
-    if (user && email.length > 0 && password.length >= 6) {
-      window.location = "/";
-      toast("Signed in", {
-        icon: "👍",
-        style: {
-          background: props.theme ? "#2e4155" : "#fff",
-          color: props.theme ? "#fff" : "#00ebfb",
-        },
-      });
-    } else {
-      toast("You filled in the required fields incompletely or incorrectly", {
-        icon: "😔",
-        style: {
-          background: props.theme ? "#2e4155" : "#fff",
-          color: props.theme ? "#fff" : "#00ebfb",
-        },
-      });
+    switch (true) {
+      case email.length < 1:
+        toast.error("enter your email!", {
+          style: {
+            background: props.theme ? "#2e4155" : "#fff",
+            color: props.theme ? "#fff" : "#00ebfb",
+          },
+        });
+        break;
+      case password.length < 1:
+        toast.error("enter your password!", {
+          style: {
+            background: props.theme ? "#2e4155" : "#fff",
+            color: props.theme ? "#fff" : "#00ebfb",
+          },
+        });
+        break;
+        case !user:
+          toast.error("you do not have a registered account!", {
+            style: {
+              background: props.theme ? "#2e4155" : "#fff",
+              color: props.theme ? "#fff" : "#00ebfb",
+            },
+          });
+          break;
+      default:
+        window.location = "/";
+        toast("Signed in", {
+          icon: "👍",
+          style: {
+            background: props.theme ? "#2e4155" : "#fff",
+            color: props.theme ? "#fff" : "#00ebfb",
+          },
+        });
     }
   };
 

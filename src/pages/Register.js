@@ -31,36 +31,56 @@ function Register(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (
-        confirmPassword === password &&
-        email.length > 0 &&
-        username.length >= 8 &&
-        password.length >= 6
-      ) {
-        const user = await register(email, password);
-        await userData({
-          uid: user.uid,
-          todo: [],
-          theme: true,
-          username: username,
-          img: url,
-        });
-        toast("mean someone new", {
-          icon: "🤠",
-          style: {
-            background: props.theme ? "#2e4155" : "#fff",
-            color: props.theme ? "#fff" : "#00ebfb",
-          },
-        });
-        window.location = "/";
-      } else {
-        toast("You filled in the required fields incompletely or incorrectly", {
-          icon: "😔",
-          style: {
-            background: props.theme ? "#2e4155" : "#fff",
-            color: props.theme ? "#fff" : "#00ebfb",
-          },
-        });
+      switch (true) {
+        case !email:
+          toast.error("please enter your email!", {
+            style: {
+              background: props.theme ? "#2e4155" : "#fff",
+              color: props.theme ? "#fff" : "#00ebfb",
+            },
+          });
+          break;
+        case username.length < 8:
+          toast.error("username must be at least 8 characters!", {
+            style: {
+              background: props.theme ? "#2e4155" : "#fff",
+              color: props.theme ? "#fff" : "#00ebfb",
+            },
+          });
+          break;
+        case password.length < 6:
+          toast.error("password must be at least 6 characters!", {
+            style: {
+              background: props.theme ? "#2e4155" : "#fff",
+              color: props.theme ? "#fff" : "#00ebfb",
+            },
+          });
+          break;
+        case password !== confirmPassword:
+          toast.error("passwords do not match!", {
+            style: {
+              background: props.theme ? "#2e4155" : "#fff",
+              color: props.theme ? "#fff" : "#00ebfb",
+            },
+          });
+          break;
+        default:
+          const user = await register(email, password);
+          await userData({
+            uid: user.uid,
+            todo: [],
+            theme: true,
+            username: username,
+            img: url,
+          });
+          toast("mean someone new", {
+            icon: "🤠",
+            style: {
+              background: props.theme ? "#2e4155" : "#fff",
+              color: props.theme ? "#fff" : "#00ebfb",
+            },
+          });
+          window.location = "/";
       }
     } catch (error) {
       console.log("Error:", error);
